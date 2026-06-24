@@ -7,16 +7,16 @@ API_BASE_URL = "http://127.0.0.1:8000"
 
 a,b,c,d=st.columns(4)
 with a:
-    if st.button("Home",help="return to main dashboard"):
+    if st.button("Home",help="return to main dashboard",use_container_width=True):
         st.switch_page("Dashboard.py")
 with b:
-    if st.button("Key Insights",help="view important usage data"):
+    if st.button("Key Insights",help="view important usage data",use_container_width=True):
         st.switch_page("pages/1 Key Insights.py")
 with c:
-    if st.button("AI consulting",help='redirect to ask AI'):
+    if st.button("AI consulting",help='redirect to ask AI',use_container_width=True):
         st.switch_page("pages/2 AI consultation.py")
 with d:
-    if st.button("Forecast",help="predict future usage"):
+    if st.button("Forecast",help="predict future usage",use_container_width=True):
         st.switch_page("pages/4 Forecasts.py")
 st.title(":blue[Optimization] Tips")
 

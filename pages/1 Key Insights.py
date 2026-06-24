@@ -85,16 +85,16 @@ else:
 
     a,b,c,d=st.columns(4)
     with a:
-        if st.button("Home",help="return to main dashboard"):
+        if st.button("Home",help="return to main dashboard",use_container_width=True):
             st.switch_page("Dashboard.py")
     with b:
-        if st.button("AI consulting",help="redirect to ask AI"):
+        if st.button("AI consulting",help="redirect to ask AI",use_container_width=True):
             st.switch_page("pages/2 AI consultation.py")
     with c:
-        if st.button("Optimization",help='Optimize your genAI Usage'):
+        if st.button("Optimization",help='Optimize your genAI Usage',use_container_width=True):
             st.switch_page("pages/3 Optimization tips.py")
     with d:
-        if st.button("Forecast",help="predict future usage"):
+        if st.button("Forecast",help="predict future usage",use_container_width=True):
             st.switch_page("pages/4 Forecasts.py")
          
     st.title("Select :blue[Invoice to View] Key Performance Indicators")

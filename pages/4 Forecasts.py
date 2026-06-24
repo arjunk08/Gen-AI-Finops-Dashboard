@@ -11,16 +11,16 @@ st.set_page_config("Forecast")
 
 a,b,c,d=st.columns(4)
 with a:
-    if st.button("Home",help="return to main dashboard"):
+    if st.button("Home",help="return to main dashboard",use_container_width=True):
         st.switch_page("Dashboard.py")
 with b:
-    if st.button("Key Insights",help="view important usage data"):
+    if st.button("Key Insights",help="view important usage data",use_container_width=True):
         st.switch_page("pages/1 Key Insights.py")
 with c:
-    if st.button("AI consulting",help='redirect to ask AI'):
+    if st.button("AI consulting",help='redirect to ask AI',use_container_width=True):
         st.switch_page("pages/2 AI consultation.py")
 with d:
-    if st.button("Optimize Usage",help="Redirect to Optimization tips"):
+    if st.button("Optimize Usage",help="Redirect to Optimization tips",use_container_width=True):
         st.switch_page("pages/3 Optimization tips.py")
 
 st.title(":blue[Future] Cost and Token Usage Forecast")
