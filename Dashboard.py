@@ -65,7 +65,7 @@ def api_register(email, username, password):
             "username": username,
             "password": password
         },
-        timeout=20
+        timeout=120
     )
 
     return response
@@ -78,7 +78,7 @@ def api_login(email, password):
             "email": email,
             "password": password
         },
-        timeout=20
+        timeout=120
     )
 
     return response
@@ -87,7 +87,7 @@ def del_my_invoice(Invoice_id):
     response=requests.delete(
         f"{API_BASE_URL}/invoices/del/{Invoice_id}",
         headers=get_auth_headers(),
-        timeout=20
+        timeout=40
     )
     return response
 
@@ -96,7 +96,7 @@ def api_get_my_invoices():
     response = requests.get(
         f"{API_BASE_URL}/invoices/my-invoices",
         headers=get_auth_headers(),
-        timeout=20
+        timeout=30
     )
 
     return response
@@ -106,7 +106,7 @@ def api_get_dashboard_summary():
     response = requests.get(
         f"{API_BASE_URL}/invoices/dashboard-summary",
         headers=get_auth_headers(),
-        timeout=20
+        timeout=30
     )
 
     return response

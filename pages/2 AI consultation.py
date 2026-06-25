@@ -38,7 +38,7 @@ def fetch_my_invoices():
     response = requests.get(
         f"{API_BASE_URL}/invoices/my-invoices",
         headers=get_auth_headers(),
-        timeout=20
+        timeout=30
     )
 
     if response.status_code == 200:
@@ -52,7 +52,7 @@ def reindex_invoices():
     response = requests.post(
         f"{API_BASE_URL}/invoices/reindex",
         headers=get_auth_headers(),
-        timeout=60
+        timeout=90
     )
 
     return response
