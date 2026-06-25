@@ -1,9 +1,7 @@
 import streamlit as st 
 import pandas as pd 
 import requests
-import sklearn
 import numpy as np
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 API_BASE_URL = "http://127.0.0.1:8000"
 
