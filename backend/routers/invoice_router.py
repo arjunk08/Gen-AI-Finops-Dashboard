@@ -506,19 +506,16 @@ def get_invoice_by_id(
     if selected_invoice is None:
         raise HTTPException(
             status_code=404,
-            detail="Invoice not found for this user"
+            detail="Invoice not found"
         )
 
-
-    statement = (
-        select(invoice_rows)
-        .where(invoice_rows.invoice_id == selected_invoice.id)
+    row_records = (
+        db.query(invoice_rows)
+        .filter(invoice_rows.invoice_id == selected_invoice.id)
         .order_by(invoice_rows.id.asc())
+        .all()
     )
 
-    row_records = db.execute(statement).scalars().all()
-
-   
     unique_rows = {}
 
     for row in row_records:
@@ -544,7 +541,6 @@ def get_invoice_by_id(
     return {
         "invoice": {
             "id": selected_invoice.id,
-            "user_id": selected_invoice.invoice_id,
             "file_name": selected_invoice.file_name,
             "file_hashid": selected_invoice.file_hashid,
             "total_cost": float(selected_invoice.total_cost or 0),
@@ -553,9 +549,9 @@ def get_invoice_by_id(
         },
         "rows": list(unique_rows.values()),
         "debug": {
-            "invoice_metadata_row_count": int(selected_invoice.row_count or 0),
-            "raw_query_rows": len(row_records),
-            "deduped_rows": len(unique_rows)
+            "metadata_row_count": int(selected_invoice.row_count or 0),
+            "query_row_count": len(row_records),
+            "returned_row_count": len(unique_rows)
         }
     }
 

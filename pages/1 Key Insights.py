@@ -107,6 +107,7 @@ else:
     summary=api_get_dashboard_summary().json()
     ab,bb=st.columns([1,2],border=True)
     with ab:
+        cont1=st.container(border=False)
         id=st.selectbox("",invoice_options.keys(),placeholder="select invoice number")
         st.write("---")
         selected_invoice_id = invoice_options[id]
@@ -118,7 +119,12 @@ else:
                 try:
                     invoice_rows1=datadf["rows"]
                     df1=pd.DataFrame(invoice_rows1)
-                    c1, c2, c3, = st.tabs(["Cost","Tokens","Department"])
+                    if "billing_date" in df1.columns:
+                        df1 = df1.drop_duplicates(subset=["billing_date"    ])
+                    with cont1:
+                        
+                        st.dataframe(df1.head())
+                    c1, c2, c3, = st.tabs(["Cost","Tokens","Usage"])
                     if "Model" in df1.columns and "amount_usd" in df1.columns:
                         model_cost_df = (
                             df1.groupby("Model", dropna=False)["amount_usd"]
@@ -127,14 +133,34 @@ else:
                             .sort_values("amount_usd", ascending=False)
                             )
                         weekly_cost_df=(df1.groupby("billing_date")["amount_usd"].sum().reset_index())
+                        df1["billing_date"] = pd.to_datetime(df1["billing_date"], errors="coerce")
+                        df1=df1.copy()
+                        df1["week"] = df1["billing_date"].dt.to_period("W").astype(str)
+                        weekly_summary = (df1.groupby("week") .agg(total_cost=("amount_usd", "sum"),total_tokens=("total_tokens", "sum")).reset_index().sort_values("week"))
+                        weekly_summary["cost_wow_change"] = weekly_summary["total_cost"].pct_change() * 100
+                        weekly_summary["tokens_wow_change"] = weekly_summary["total_tokens"].pct_change() * 100
                     
                         with c1:
+                            latest_week = weekly_summary.iloc[-1]
+                            previous_week = weekly_summary.iloc[-2]
+
+                            total_cost = latest_week["total_cost"]
+                            total_tokens = latest_week["total_tokens"]
+
+                            cost_wow = latest_week["cost_wow_change"]
+                            tokens_wow = latest_week["tokens_wow_change"]
+                            ca,cb=st.columns(2)
+                            with ca:
+                                st.metric(label="Weekly Cost",value=f"${total_cost:,.2f}",delta=f"{cost_wow:.2f}% WoW")
+                            with cb:
+                                st.metric(label="Weekly Tokens",value=f"{int(total_tokens):,}",delta=f"{tokens_wow:.2f}% WoW")
+
                             st.subheader("Cost per Model")
                             st.bar_chart(model_cost_df, x="Model", y="amount_usd",y_label="Amount per Model")
                             st.write("---")
                             st.subheader("Cost on billing days")
-                            st.bar_chart(weekly_cost_df,x="billing_date",y="amount_usd")
-                            st.dataframe(df1)
+                            st.bar_chart(weekly_cost_df,x="billing_date",y="amount_usd",x_label="Billing Date",y_label="Amount per day")
+                        
                     token_model_df=(df1.groupby("Model",dropna=False)["total_tokens"].sum().reset_index())
         
                     with c2:
@@ -142,9 +168,11 @@ else:
                         st.bar_chart(token_model_df,x="Model",y="total_tokens",y_label="Tokens Per Model")
                     with c3:
                         st.subheader("Department Cost")
-                        if "business_unit" or "team" or "application" is not None:
-                            appdf=(df1.groupby("business_unit" or "team" or "application")["amount_usd"].sum().reset_index())
-                            st.bar_chart(appdf)                
+                        if "application" is not None:
+                            appdf=(df1.groupby("application")["amount_usd"].sum().reset_index())
+                            st.bar_chart(appdf,x="application",y="amount_usd",y_label="Amount used")    
+                            appdft=(df1.groupby("application")["total_tokens"].sum().reset_index())
+                            st.bar_chart(appdft,x="application",y="total_tokens",y_label="Total tokens used")            
                 
                 except Exception as e:
                     st.info(f"Select Invoice ID Using the Dropdown menu,{e}")
