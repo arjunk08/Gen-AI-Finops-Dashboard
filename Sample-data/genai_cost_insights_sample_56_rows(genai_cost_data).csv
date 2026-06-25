@@ -1,0 +1,60 @@
+﻿date,provider,model,application,business_unit,team,environment,region,request_count,input_tokens,output_tokens,total_tokens,input_cost,output_cost,total_cost,budget,week
+06-04-2026,Azure OpenAI,GPT-4o,Customer Support Bot,Operations,Support AI,Prod,India,16334,23145278,20482836,43628114,1215.73,1407.24,2622.97,26000,1
+07-04-2026,Azure OpenAI,GPT-4o mini,Risk Policy Q&A,Risk,Governance AI,UAT,EU,2926,1615152,1591744,3206896,1100.24,1100.96,2201.2,6000,1
+08-04-2026,AWS Bedrock,Titan Embeddings,Finance Invoice Extractor,Finance,Finance Automation,Prod,India,8067,5598498,0,5598498,1100.56,0,1100.56,10000,1
+10-04-2026,AWS Bedrock,Claude 4.6 sonnet,Engineering Code Copilot,Engineering,Developer Productivity,Prod,EU,13078,27751516,11966370,39717886,1183.25,1279.5,2462.75,22000,1
+11-04-2026,Google Vertex AI,Gemini 3.5  Pro,Legal Contract Summarizer,Legal,Legal Ops,Prod,US,2906,7852012,2350954,10202966,1127.48,1124.69,2252.17,12000,1
+11-04-2026,OpenAI API,Gpt-5.5,Sales Proposal Assistant,Sales,Revenue AI,Prod,India,9488,12884704,7486032,20370736,1138.65,1189.83,2328.48,18000,1
+12-04-2026,AWS Bedrock,Claude 4.5 Haiku,HR Knowledge Assistant,HR,People Tech,Prod,India,4718,2741158,4161276,6902434,1500.69,1505.2,3005.89,7000,1
+13-04-2026,AWS Bedrock,Claude 4.5 Haiku,HR Knowledge Assistant,HR,People Tech,Prod,India,4344,2315352,2893104,5208456,1500.58,1503.62,3004.2,7000,2
+15-04-2026,OpenAI API,Gpt-5.5 mini,Sales Proposal Assistant,Sales,Revenue AI,Prod,India,9805,8559765,12972015,21531780,1503.42,1520.76,3024.18,18000,2
+16-04-2026,OpenAI API,o4-mini,Engineering Code Copilot,Engineering,Developer Productivity,Prod,EU,11209,37169044,7992017,45161061,1540.89,1535.16,3076.05,22000,2
+17-04-2026,Azure OpenAI,GPT-4o mini,Customer Support Bot,Operations,Support AI,Prod,India,16813,21655144,29456376,51111520,1503.25,1517.67,3020.92,26000,2
+17-04-2026,Azure OpenAI,GPT-4o,Marketing Copy Generator,Marketing,Brand AI,Non-Prod,US,6186,7181946,14289660,21471606,1535.91,1714.34,3250.25,9000,2
+18-04-2026,Azure OpenAI,GPT-4o mini,Finance Invoice Extractor,Finance,Finance Automation,Prod,India,7279,22768712,2962553,25731265,1503.42,1501.78,3005.2,10000,2
+19-04-2026,AWS Bedrock,Claude 4.6 sonnet,Legal Contract Summarizer,Legal,Legal Ops,Prod,US,2516,6926548,1139748,8066296,1520.78,1517.1,3037.88,12000,2
+21-04-2026,Google Vertex AI,Gemini 3.5  Flash,HR Knowledge Assistant,HR,People Tech,Prod,India,4610,2452520,3890840,6343360,1500.86,1504.09,3004.95,7000,3
+21-04-2026,Google Vertex AI,Gemini 3.5  Pro,Legal Contract Summarizer,Legal,Legal Ops,Prod,US,3734,10746452,3218708,13965160,1537.61,1533.8,3071.41,12000,3
+21-04-2026,OpenAI API,Gpt-5.5 mini,Sales Proposal Assistant,Sales,Revenue AI,Prod,India,8079,6850992,6560148,13411140,1502.74,1510.5,3013.24,18000,3
+23-04-2026,Azure OpenAI,GPT-4o mini,Finance Invoice Extractor,Finance,Finance Automation,Prod,India,10194,18828318,10662924,29491242,1502.82,1506.4,3009.22,10000,3
+24-04-2026,Azure OpenAI,GPT-4o,Marketing Copy Generator,Marketing,Brand AI,Non-Prod,US,8039,7677245,20411021,28088266,1638.39,1906.17,3544.56,9000,3
+25-04-2026,Azure OpenAI,GPT-4o,Engineering Code Copilot,Engineering,Developer Productivity,Prod,EU,13679,43677047,6347056,50024103,1818.39,1695.21,3513.6,22000,3
+25-04-2026,AWS Bedrock,Claude 4.5 Haiku,Risk Policy Q&A,Risk,Governance AI,UAT,EU,3402,2395008,2789640,5184648,1600.6,1603.49,3204.09,6000,3
+27-04-2026,AWS Bedrock,Claude 4.6 sonnet,Legal Contract Summarizer,Legal,Legal Ops,Prod,US,4062,11138004,3867024,15005028,1633.41,1658.01,3291.42,12000,3
+28-04-2026,AWS Bedrock,Claude 4.6 sonnet,Engineering Code Copilot,Engineering,Developer Productivity,Prod,EU,17676,62449308,10004616,72453924,1787.35,1750.07,3537.42,22000,4
+28-04-2026,Google Vertex AI,Gemini 3.5  Flash,Risk Policy Q&A,Risk,Governance AI,UAT,EU,4284,2326212,4056948,6383160,1600.81,1604.26,3205.07,6000,4
+30-04-2026,Azure OpenAI,GPT-4o mini,HR Knowledge Assistant,HR,People Tech,Prod,India,6880,6529120,5256320,11785440,1600.98,1603.15,3204.13,7000,4
+02-05-2026,Azure OpenAI,GPT-4o mini,Finance Invoice Extractor,Finance,Finance Automation,Prod,India,12326,44977574,5830198,50807772,1606.75,1603.5,3210.25,10000,4
+03-05-2026,Azure OpenAI,GPT-4o mini,Customer Support Bot,Operations,Support AI,Prod,India,30080,36667520,60671360,97338880,1605.5,1636.4,3241.9,26000,4
+03-05-2026,OpenAI API,Gpt-5.5 mini,Sales Proposal Assistant,Sales,Revenue AI,Prod,India,10169,14999275,12060434,27059709,1906,1919.3,3825.3,18000,4
+05-05-2026,OpenAI API,o4-mini,Engineering Code Copilot,Engineering,Developer Productivity,Prod,EU,11756,29989556,7465060,37454616,1932.99,1932.85,3865.84,22000,5
+06-05-2026,Azure OpenAI,GPT-4o,Customer Support Bot,Operations,Support AI,Prod,India,22109,36391414,28962790,65354204,2081.96,2334.44,4416.4,26000,5
+08-05-2026,AWS Bedrock,Claude 4.6 sonnet,Legal Contract Summarizer,Legal,Legal Ops,Prod,US,4079,16878902,3834260,20713162,2850.64,2857.51,5708.15,12000,5
+09-05-2026,Azure OpenAI,GPT-4o mini,Risk Policy Q&A,Risk,Governance AI,UAT,EU,3111,2093703,1745271,3838974,2800.31,2801.05,5601.36,6000,5
+10-05-2026,Azure OpenAI,GPT-4o mini,Finance Invoice Extractor,Finance,Finance Automation,Prod,India,9112,19918832,4091288,24010120,2802.99,2802.45,5605.44,10000,5
+10-05-2026,AWS Bedrock,Claude 4.5 Haiku,HR Knowledge Assistant,HR,People Tech,Prod,India,5109,4807569,2809950,7617519,2801.2,2803.51,5604.71,7000,5
+10-05-2026,OpenAI API,Gpt-5.5,Sales Proposal Assistant,Sales,Revenue AI,Prod,India,10636,11540060,14730860,26270920,2834.62,2976.77,5811.39,18000,5
+11-05-2026,OpenAI API,Gpt-5.5 mini,Marketing Copy Generator,Marketing,Brand AI,Non-Prod,US,7989,9530877,14555958,24086835,2003.81,2023.29,4027.1,9000,5
+12-05-2026,AWS Bedrock,Claude 4.5 Haiku,Customer Support Bot,Operations,Support AI,Prod,India,27103,28946004,53555528,82501532,2007.24,2066.94,4074.18,26000,6
+13-05-2026,AWS Bedrock,Claude 4.6 sonnet,Legal Contract Summarizer,Legal,Legal Ops,Prod,US,3010,12100200,1240120,13340320,2036.3,2018.6,4054.9,12000,6
+14-05-2026,Azure OpenAI,GPT-4o mini,HR Knowledge Assistant,HR,People Tech,Prod,India,6298,3942548,3086020,7028568,2000.59,2001.85,4002.44,7000,6
+14-05-2026,Azure OpenAI,GPT-4o mini,Risk Policy Q&A,Risk,Governance AI,UAT,EU,3757,2750124,2787694,5537818,2000.41,2001.67,4002.08,6000,6
+15-05-2026,AWS Bedrock,Claude 4.6 sonnet,Engineering Code Copilot,Engineering,Developer Productivity,Prod,EU,12542,26062276,13056222,39118498,2078.19,2195.84,4274.03,22000,6
+16-05-2026,Google Vertex AI,Gemini 3.5  Flash,Sales Proposal Assistant,Sales,Revenue AI,Prod,India,11296,17339360,13532608,30871968,2006.07,2014.21,4020.28,18000,6
+18-05-2026,Azure OpenAI,GPT-4o mini,Customer Support Bot,Operations,Support AI,Prod,India,19429,23081652,31688699,54770351,2303.46,2319.01,4622.47,26000,6
+20-05-2026,Google Vertex AI,Gemini 3.5  Flash,Risk Policy Q&A,Risk,Governance AI,UAT,EU,3727,2567903,2761707,5329610,2300.9,2302.9,4603.8,6000,7
+22-05-2026,Azure OpenAI,GPT-4o,Engineering Code Copilot,Engineering,Developer Productivity,Prod,EU,11431,30555063,9922108,40477171,2452.78,2448.83,4901.61,22000,7
+23-05-2026,AWS Bedrock,Titan Embeddings,Finance Invoice Extractor,Finance,Finance Automation,Prod,India,8513,8981215,0,8981215,2300.9,0,2300.9,10000,7
+23-05-2026,AWS Bedrock,Claude 4.6 sonnet,Legal Contract Summarizer,Legal,Legal Ops,Prod,US,3242,6798474,1163878,7962352,2320.4,2317.46,4637.86,12000,7
+24-05-2026,Google Vertex AI,Gemini 3.5  Flash,HR Knowledge Assistant,HR,People Tech,Prod,India,4835,4414355,4791485,9205840,2301.55,2305.03,4606.58,7000,7
+24-05-2026,OpenAI API,Gpt-5.5 mini,Sales Proposal Assistant,Sales,Revenue AI,Prod,India,12404,11238024,10382148,21620172,2704.5,2716.61,5421.11,18000,7
+25-05-2026,Google Vertex AI,Gemini 3.5  Pro,Marketing Copy Generator,Marketing,Brand AI,Non-Prod,US,9098,6323110,13710686,20033796,2722.13,2843.96,5566.09,9000,7
+26-05-2026,AWS Bedrock,Claude 4.5 Haiku,Customer Support Bot,Operations,Support AI,Prod,India,27763,48029990,43365806,91395796,2712.01,2754.21,5466.22,26000,7
+26-05-2026,Google Vertex AI,Gemini 3.5  Pro,Legal Contract Summarizer,Legal,Legal Ops,Prod,US,3299,11906091,3015286,14921377,2741.67,2731.66,5473.33,12000,7
+27-05-2026,Google Vertex AI,Gemini 3.5  Flash,HR Knowledge Assistant,HR,People Tech,Prod,India,4705,2658325,2314860,4973185,2700.93,2702.43,5403.36,7000,8
+29-05-2026,Google Vertex AI,Gemini 3.5  Flash,Finance Invoice Extractor,Finance,Finance Automation,Prod,India,8232,19839120,7474656,27313776,2706.94,2707.85,5414.79,10000,8
+30-05-2026,OpenAI API,Gpt-5.5,Sales Proposal Assistant,Sales,Revenue AI,Prod,India,12260,14908160,16367100,31275260,2744.72,2896.41,5641.13,18000,8
+31-05-2026,Google Vertex AI,Gemini 3.5  Flash,Risk Policy Q&A,Risk,Governance AI,UAT,EU,2769,1891227,1841385,3732612,2700.66,2701.93,5402.59,6000,8
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,

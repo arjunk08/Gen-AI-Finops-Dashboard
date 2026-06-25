@@ -1,0 +1,11 @@
+BillingPeriod,Workspace,Model,UsageType,QuantityTokens,Billable1M Tokens,BillingUnit,RateUSDPer1M Tokens,AmountUSD,UseCase
+03-Jan-26,vertex-prod-support,Gemini Embedding,Embedding tokens,2043500000,2043.5,1M Tokens,0.1,204.35,Marketing copy generation
+15-Jan-26,vertex-prod-support,Gemini Embedding,Embedding tokens,4241000000,4241.0,1M Tokens,0.1,424.1,Support knowledge assistant
+28-Jan-26,vertex-prod-support,Gemini Embedding,Embedding tokens,5395500000,5395.5,1M Tokens,0.1,539.55,Claims document extraction
+07-Feb-26,vertex-marketing-gen,Gemini 1.5 Flash,Input tokens,948000000,948.0,1M Tokens,0.075,71.1,Prototype testing
+10-Feb-26,vertex-marketing-gen,Gemini 1.5 Flash,Input tokens,327000000,327.0,1M Tokens,0.075,24.52,Support knowledge assistant
+12-Mar-26,vertex-prod-support,Gemini 1.5 Flash,Input tokens,485000000,485.0,1M Tokens,0.075,36.38,Prototype testing
+17-Mar-26,vertex-dev-lab,Gemini Embedding,Embedding tokens,2780000000,2780.0,1M Tokens,0.1,278.0,Prototype testing
+26-Apr-26,vertex-prod-support,Gemini 1.5 Flash,Input tokens,843250000,843.25,1M Tokens,0.075,63.24,Marketing copy generation
+04-May-26,vertex-doc-ai,Gemini 1.5 Pro,Output tokens,178000000,178.0,1M Tokens,5.0,890.0,Prototype testing
+24-May-26,vertex-marketing-gen,Gemini 1.5 Pro,Output tokens,553000000,553.0,1M Tokens,5.0,2765.0,Marketing copy generation

@@ -1,0 +1,12 @@
+BillingPeriod,Workspace,Model,UsageType,QuantityTokens,Billable1M Tokens,BillingUnit,RateUSDPer1M Tokens,AmountUSD,UseCase
+11-Jan-26,bedrock-cx-agent,Titan Text Embeddings,Embedding tokens,4200000000,4200.0,1M Tokens,0.1,420.0,Contact-center agent assist
+16-Jan-26,bedrock-prod-ops,Claude Sonnet 4.5 on Bedrock,5m cache writes,354000000,354.0,1M Tokens,3.75,1327.5,Risk review summaries
+20-Jan-26,bedrock-prod-ops,Claude Sonnet 4.5 on Bedrock,5m cache writes,392125000,392.125,1M Tokens,3.75,1470.47,Contact-center agent assist
+25-Jan-26,bedrock-cx-agent,Titan Text Embeddings,Embedding tokens,5902000000,5902.0,1M Tokens,0.1,590.2,Knowledge-base indexing
+26-Jan-26,bedrock-kb-indexing,Claude Haiku 4.5 on Bedrock,Cache hits & refreshes,2940000000,2940.0,1M Tokens,0.1,294.0,Knowledge-base indexing
+27-Jan-26,bedrock-cx-agent,Claude Sonnet 4.5 on Bedrock,Input tokens,390000000,390.0,1M Tokens,3.0,1170.0,Risk review summaries
+05-Feb-26,bedrock-prod-ops,Titan Text Embeddings,Embedding tokens,2344000000,2344.0,1M Tokens,0.1,234.4,Risk review summaries
+07-Apr-26,bedrock-prod-ops,Claude Haiku 4.5 on Bedrock,Input tokens,540250000,540.25,1M Tokens,1.0,540.25,Knowledge-base indexing
+09-Apr-26,bedrock-kb-indexing,Titan Text Embeddings,Embedding tokens,2152000000,2152.0,1M Tokens,0.1,215.2,Risk review summaries
+04-May-26,bedrock-prod-ops,Claude Sonnet 4.5 on Bedrock,Input tokens,163250000,163.25,1M Tokens,3.0,489.75,Knowledge-base indexing
+30-May-26,bedrock-kb-indexing,Titan Text Embeddings,Embedding tokens,3463250000,3463.25,1M Tokens,0.1,346.33,Knowledge-base indexing

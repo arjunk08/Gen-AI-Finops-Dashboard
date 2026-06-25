@@ -1,0 +1,11 @@
+BillingPeriod,Workspace,Model,UsageType,QuantityTokens,Billable1M Tokens,BillingUnit,RateUSDPer1M Tokens,AmountUSD,UseCase
+02-Jun-26,prod-hr-assistant,Claude Sonnet 4.6,Base input tokens,920000000,920,1M Tokens,3,2760,Employee policy Q&A and HR case drafting
+06-Jun-26,prod-hr-assistant,Claude Sonnet 4.6,Output tokens,285000000,285,1M Tokens,15,4275,Employee policy Q&A and HR case drafting
+08-Jun-26,prod-hr-rag,Claude Sonnet 4.6,5m cache writes,310000000,310,1M Tokens,3.75,1162.5,Cached HR policy and benefits context
+09-Jun-26,prod-hr-rag,Claude Sonnet 4.6,Cache hits & refreshes,2250000000,2250,1M Tokens,0.3,675,Cached HR policy and benefits context
+10-Jun-26,prod-hr-triage,Claude Haiku 4.5,Base input tokens,1650000000,1650,1M Tokens,1,1650,High-volume HR ticket classification
+12-Jun-26,prod-hr-triage,Claude Haiku 4.5,Output tokens,360000000,360,1M Tokens,5,1800,High-volume HR ticket classification
+15-Jun-26,prod-policy-review,Claude Opus 4.8,Base input tokens,90000000,90,1M Tokens,5,450,Complex policy comparison and drafting
+19-Jun-26,prod-policy-review,Claude Opus 4.8,Output tokens,32000000,32,1M Tokens,25,800,Complex policy comparison and drafting
+,,,,,,,,,
+,,,,,,,,,
