@@ -50,7 +50,7 @@ def ai_consultation(
         user_id=current_user.id,
         question=payload.question,
         invoice_id=payload.invoice_id,
-        n_results=50
+        n_results=15
     )
 
     if not context_blocks:
