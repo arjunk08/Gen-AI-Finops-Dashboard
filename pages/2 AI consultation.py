@@ -92,7 +92,6 @@ with st.expander("AI Search Setup"):
             )
         if response.status_code == 200:
             st.success("Reindex completed.")
-            st.write(response.json())
         else:
             st.error(response.text)
 
