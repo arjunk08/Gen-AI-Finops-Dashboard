@@ -10,6 +10,7 @@ import requests
 from db_end.models import userid,chathistory,invoice_rows,invoice,optimization_rec
 from backend.dependancies import get_current_user,get_db,Session
 from backend.vector_store import query_user_context
+from backend.ai_protection import check_rate_limit,check_ai_request
 
 
 router = APIRouter()
@@ -40,11 +41,9 @@ def ai_consultation(
     db: Session = Depends(get_db),
     current_user: userid = Depends(get_current_user)
 ):
-    if not payload.question.strip():
-        raise HTTPException(
-            status_code=400,
-            detail="Question cannot be empty."
-        )
+    check_ai_request(payload)
+
+    check_rate_limit(current_user,5,15)
 
     context_blocks = query_user_context(
         user_id=current_user.id,
@@ -124,7 +123,8 @@ Instructions:
                 "content": prompt,
             }
         ],
-        temperature=0.2
+        temperature=0.2,
+        max_tokens=400
     )
 
     answer = response.choices[0].message.content
