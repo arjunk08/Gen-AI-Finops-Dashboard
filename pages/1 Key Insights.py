@@ -57,13 +57,6 @@ else:
             )
         return response
     
-    def api_extract_id_from_number(Invoice_name):
-        response=requests.get(
-            f"{API_BASE_URL}/invoices/{Invoice_name}",
-            headers=get_auth_headers,
-            timeout=40
-            )
-        return response
     
     def api_get_dashboard_summary():
         response = requests.get(
@@ -112,11 +105,7 @@ else:
          
     st.title("Select :blue[Invoice to View] Key Performance Indicators")
     summary=api_get_dashboard_summary().json()
-    option=[]
-    lent=summary.get("invoice_count")
     ab,bb=st.columns([1,2],border=True)
-    for i in range(1,(lent+1)):
-        option.append(i)
     with ab:
         id=st.selectbox("",invoice_options.keys(),placeholder="select invoice number")
         st.write("---")
@@ -129,8 +118,6 @@ else:
                 try:
                     invoice_rows1=datadf["rows"]
                     df1=pd.DataFrame(invoice_rows1)
-                    #t1, t2, t3=st.tabs(["Cost","Tokens","Departments"])
-                    #with t1:
                     c1, c2, c3, = st.tabs(["Cost","Tokens","Department"])
                     if "Model" in df1.columns and "amount_usd" in df1.columns:
                         model_cost_df = (

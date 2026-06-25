@@ -4,7 +4,7 @@ import pandas as pd
 import re
 from db_end.models import invoice, userid,invoice_rows, chathistory
 from backend.dependancies import get_db, get_current_user
-from sqlalchemy import func
+from sqlalchemy import func,select
 import json
 import io
 import hashlib
@@ -487,13 +487,13 @@ def debug_chroma_all_route():
     return debug_chroma_all()
 
 
+
 @router.get("/{invoice_id}")
 def get_invoice_by_id(
     invoice_id: int,
     db: Session = Depends(get_db),
     current_user: userid = Depends(get_current_user)
 ):
-    
     selected_invoice = (
         db.query(invoice)
         .filter(
@@ -506,57 +506,57 @@ def get_invoice_by_id(
     if selected_invoice is None:
         raise HTTPException(
             status_code=404,
-            detail="Invoice not found"
+            detail="Invoice not found for this user"
         )
 
 
-    unique_invoice_row_records = (
-        db.query(invoice_rows.id)
-        .filter(invoice_rows.invoice_id==selected_invoice.id)
-        .distinct()
-        .all()
+    statement = (
+        select(invoice_rows)
+        .where(invoice_rows.invoice_id == selected_invoice.id)
+        .order_by(invoice_rows.id.asc())
     )
 
-    unique_invoice_row_records = [row_id[0] for row_id in unique_invoice_row_records]
+    row_records = db.execute(statement).scalars().all()
 
-    unique_row_records=(
-        db.query(invoice_rows)
-        .filter(invoice_rows.id.in_(unique_invoice_row_records))
-        .order_by(invoice_rows.id)
-        .all()
-    )
+   
+    unique_rows = {}
 
+    for row in row_records:
+        unique_rows[row.id] = {
+            "id": row.id,
+            "invoice_id": row.invoice_id,
+            "billing_date": row.billing_date,
+            "provider": row.provider,
+            "application": row.application,
+            "team": row.team,
+            "business_unit": row.business_unit,
+            "Model": row.Model,
+            "request_count": int(row.request_count or 0),
+            "input_tokens": int(row.input_tokens or 0),
+            "output_tokens": int(row.output_tokens or 0),
+            "total_tokens": int(row.total_tokens or 0),
+            "rate_usd": float(row.rate_usd or 0),
+            "amount_usd": float(row.amount_usd or 0),
+            "raw_data": row.raw_data,
+            "chroma_id": row.chroma_id
+        }
 
     return {
         "invoice": {
             "id": selected_invoice.id,
+            "user_id": selected_invoice.invoice_id,
             "file_name": selected_invoice.file_name,
             "file_hashid": selected_invoice.file_hashid,
             "total_cost": float(selected_invoice.total_cost or 0),
             "total_tokens": int(selected_invoice.total_tokens or 0),
             "row_count": int(selected_invoice.row_count or 0)
         },
-        "rows": [
-            {
-                "id": row.id,
-                "invoice_id": row.invoice_id,
-                "provider": row.provider,
-                "Model": row.Model,
-                "total_tokens": int(row.total_tokens or 0),
-                "application": row.application,
-                "business_unit": row.business_unit,
-                "team": row.team,
-                "billing_date": row.billing_date,
-                "amount_usd": float(row.amount_usd or 0),
-                "request_count": int(row.request_count or 0),
-                "input_tokens": int(row.input_tokens or 0),
-                "output_tokens": int(row.output_tokens or 0),
-                "rate_usd": float(row.rate_usd or 0),
-                "raw_data": row.raw_data,
-                "chroma_id": row.chroma_id
-            }
-            for row in unique_row_records
-        ]
+        "rows": list(unique_rows.values()),
+        "debug": {
+            "invoice_metadata_row_count": int(selected_invoice.row_count or 0),
+            "raw_query_rows": len(row_records),
+            "deduped_rows": len(unique_rows)
+        }
     }
 
 @router.delete("/del/{Invoice_id}")
