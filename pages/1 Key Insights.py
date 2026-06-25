@@ -1,6 +1,5 @@
 import pandas as pd 
 import streamlit as st 
-from fastapi import FastAPI
 import requests
 import matplotlib.pyplot as plt 
 import seaborn as sns
