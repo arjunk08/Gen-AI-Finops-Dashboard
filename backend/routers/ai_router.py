@@ -65,6 +65,7 @@ def ai_consultation(
             for index, item in enumerate(context_blocks)
         ]
     )
+
     chat_hist = (
     db.query(chathistory)
     .filter(chathistory.invoice_id == payload.invoice_id)
@@ -128,16 +129,16 @@ Instructions:
 
     answer = response.choices[0].message.content
 
-    chat_history = chathistory(
-        invoice_id=payload.invoice_id,
-        question=payload.question,
-        answer=answer,
-        retrieved_context=json.dumps(context_blocks),
-    )
-
-    db.add(chat_history)
-    db.commit()
-    db.refresh(chat_history)
+    if payload.invoice_id is not None:
+        chat_history = chathistory(
+            invoice_id=payload.invoice_id,
+            question=payload.question,
+            answer=answer,
+            retrieved_context=json.dumps(context_blocks),
+        )
+        db.add(chat_history)
+        db.commit()
+        db.refresh(chat_history)
 
     return {
         "answer": answer,
