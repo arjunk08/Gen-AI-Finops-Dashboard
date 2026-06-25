@@ -73,7 +73,7 @@ def api_extract_from_database(invoice_number):
 if st.session_state.user==None and st.session_state.access_token==None:
     st.info("No User logged in,Please log in first")
     st.divider()
-    if st.button("Log in now",icon_position="right"):
+    if st.button("Log in now",icon_position="right",use_container_width=True):
         st.switch_page("Dashboard.py") and go_to_login()
 else:
 
