@@ -124,7 +124,7 @@ Instructions:
             }
         ],
         temperature=0.2,
-        max_tokens=400
+        max_completion_tokens=400
     )
 
     answer = response.choices[0].message.content
