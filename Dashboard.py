@@ -437,5 +437,6 @@ elif st.session_state.page == "login":
 elif st.session_state.page == "register":
     register_page()
 
+
 else:
     landing_page()
