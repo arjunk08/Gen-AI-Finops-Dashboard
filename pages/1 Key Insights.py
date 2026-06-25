@@ -4,7 +4,8 @@ import requests
 import matplotlib.pyplot as plt 
 import seaborn as sns
 
-API_BASE_URL = "http://127.0.0.1:8000"
+#API_BASE_URL = "http://127.0.0.1:8000"
+API_BASE_URL = "https://gen-ai-finops-dashboard.onrender.com"
 
 if "access_token" not in st.session_state:
     st.session_state.access_token = None

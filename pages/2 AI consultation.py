@@ -3,7 +3,8 @@ import requests
 import pandas as pd
 
 
-API_BASE_URL = "http://127.0.0.1:8000"
+#API_BASE_URL = "http://127.0.0.1:8000"
+API_BASE_URL = "https://gen-ai-finops-dashboard.onrender.com"
 
 a,b,c,d=st.columns(4)
 with a:
@@ -31,6 +32,7 @@ def get_auth_headers():
         "Authorization": f"Bearer {st.session_state.access_token}"
     }
 
+st.session_state.session_chat=None
 
 def fetch_my_invoices():
     response = requests.get(
