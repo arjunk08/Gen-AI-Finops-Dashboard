@@ -28,12 +28,25 @@ def get_auth_headers():
     }
 
 if st.session_state.user==None and st.session_state.access_token==None:
-    cl1,cl2,cl3=st.columns(3)
-    with cl2:
-        st.header(":blue[No user] logged in")
-        st.divider()
-        if st.button("Log in now",icon_position="right"):
-            st.switch_page("Dashboard.py") and go_to_login()
+    a,b,c,d=st.columns(4)
+    with a:
+        if st.button("Home",help="return to main dashboard",use_container_width=True):
+            st.switch_page("Dashboard.py")
+    with b:
+        if st.button("AI consulting",help="redirect to ask AI",use_container_width=True):
+            st.switch_page("pages/2 AI consultation.py")
+    with c:
+        if st.button("Optimization",help='Optimize your genAI Usage',use_container_width=True):
+            st.switch_page("pages/3 Optimization tips.py")
+    with d:
+        if st.button("Forecast",help="predict future usage",use_container_width=True):
+            st.switch_page("pages/4 Forecasts.py")
+    
+    st.title(":blue[Key] Performance Indicators")
+    st.info("No user logged in")
+    st.divider()
+    if st.button("Log in now",icon_position="right",use_container_width=True):
+        st.switch_page("Dashboard.py") and go_to_login()
 
 else:
     def api_extract_from_database(invoice_number):
