@@ -25,6 +25,9 @@ st.title(":blue[Optimization] Tips")
 
 if "access_token" not in st.session_state or not st.session_state.access_token:
     st.info("No user logged in, Please login first.")
+    st.divider()
+    if st.button("Log in now",icon_position="right"):
+        st.switch_page("Dashboard.py") and go_to_login()
     st.stop()
 
 
