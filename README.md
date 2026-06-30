@@ -220,7 +220,7 @@ This dashboard supports practical FinOps workflows such as:
 
 The application is currently deployed on Streamlit Community Cloud.
 
-Because free hosting environments may pause inactive applications, the first request after inactivity may take longer than usual. Once the app restarts, the dashboard should continue working normally.
+Because free hosting environments may pause inactive applications, the first login request after inactivity may take longer than usual.after that the dashboard should continue working normally.
 
 ---
 
