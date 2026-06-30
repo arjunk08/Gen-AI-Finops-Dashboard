@@ -6,10 +6,11 @@ from passlib.context import CryptContext
 from jose import jwt,JWTError
 import pydantic
 from datetime import timedelta,datetime
+import os
 
 password_context=CryptContext(schemes=["bcrypt"],deprecated="auto")
 
-secret="key"
+secret=os.getenv("KEY")
 
 
 def hashp(passw: str):
