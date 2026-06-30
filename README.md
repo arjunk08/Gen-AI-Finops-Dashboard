@@ -85,8 +85,6 @@ A future release will introduce forecasting capabilities to help teams:
 - **SQLAlchemy** - ORM
 - **Streamlit** – Interactive dashboard interface
 - **Generative AI / LLM Integration** – AI-powered consultation and recommendations
-- **FinOps Analytics** – Cost governance, invoice review, and optimization insights
-- **Data Visualization** – Charts and dashboard-based reporting
 
 ---
 
