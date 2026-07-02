@@ -159,7 +159,6 @@ OPENAI_API_KEY=your_api_key_here
 streamlit run Dashboard.py
 ```
 
-If the main file has a different name, replace `app.py` with the correct Streamlit entry-point file.
 
 ---
 
