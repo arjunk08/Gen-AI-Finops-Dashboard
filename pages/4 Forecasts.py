@@ -94,9 +94,11 @@ else:
     with col1:
         if st.button("Forecast Costs",use_container_width=True):
             avg=sum(df1["amount_usd"])/len(df1["amount_usd"])
+            st.write(df1.head())
             st.info("TO BE ADDED IN FUTURE UPDATES")
     with col2:
         if st.button("Forecast Token Usage",use_container_width=True):
+            st.write(df1.head())
             st.info("TO BE ADDED IN FUTURE UPDATES")
 
     
