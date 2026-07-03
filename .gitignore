@@ -81,6 +81,7 @@ target/
 # IPython
 profile_default/
 ipython_config.py
+*.cpython-314.pyc
 
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
@@ -218,7 +219,6 @@ __marimo__/
 *.sqlite
 *.sqlite3
 *.pyc
-*.cpython-314.pyc
 .venv/
 .vscode/
 chroma_store/
