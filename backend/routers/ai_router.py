@@ -310,12 +310,13 @@ Instructions:
     response=co.chat(
         model="command-a-plus-05-2026",
         messages=[
-            {"role":"user","content":prompt}
+            {"role":"system","content":"You are a helpful financial assitant who analyzes Genrative AI Usage answer accordingly to whatever the user asks, dont give too big answers be direct and do not calculate anything on your own","role":"user","content":prompt}
         ]
     )
 
+    answer=response.message.content[0].text
     return {
-        "answer":response
+        "answer":answer
     }
     
 
