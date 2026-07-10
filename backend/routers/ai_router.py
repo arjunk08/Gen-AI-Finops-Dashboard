@@ -314,9 +314,9 @@ Instructions:
         ]
     )
 
-    answer=response.message.content[0].text
+
     return {
-        "answer":answer
+        "answer":response
     }
     
 
