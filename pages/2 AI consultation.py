@@ -63,7 +63,7 @@ def reindex_invoices():
 
 def ask_ai(question, invoice_id=None):
     response = requests.post(
-        f"{API_BASE_URL}/ai/consult",
+        f"{API_BASE_URL}/ai/consult/cohere",
         headers=get_auth_headers(),
         json={
             "question": question,

@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from openai import AzureOpenAI
 from openai import OpenAI
 import requests
-
+import cohere
 from db_end.models import userid,chathistory,invoice_rows,invoice,optimization_rec
 from backend.dependancies import get_current_user,get_db,Session
 from backend.vector_store import query_user_context
@@ -29,6 +29,8 @@ class AIOptimizeRequest(BaseModel):
 client =OpenAI(base_url=os.getenv("AZURE_OPENAI_ENDPOINT"),
     api_key=os.getenv("OPENAI_API_KEY"),
     )
+
+co=cohere.ClientV2(api_key=os.getenv("COHERE_API_KEY"))
 
  
 
@@ -235,3 +237,86 @@ Instructions:
             "answer": answer,
             "context_used": context_blocks,
             }
+    
+@router.post("/consult/cohere")
+def ai_consult_cohere(
+    payload: AIConsultRequest,
+    db: Session = Depends(get_db),
+    current_user: userid = Depends(get_current_user)
+):
+    check_ai_request(payload)
+
+    check_rate_limit(current_user,5,15)
+
+    context_blocks = query_user_context(
+        user_id=current_user.id,
+        question=payload.question,
+        invoice_id=payload.invoice_id,
+        n_results=50
+    )
+
+    if not context_blocks:
+        return {
+            "answer": "No invoice context was found. Please upload and index invoice data first.",
+            "context_used": []
+        }
+
+    context_text = "\n\n".join(
+        [
+            f"Context Row {index + 1}:\n{item['document']}"
+            for index, item in enumerate(context_blocks)
+        ]
+    )
+
+    chat_hist = (
+    db.query(chathistory)
+    .filter(chathistory.invoice_id == payload.invoice_id)
+    .all())
+
+    history = [
+    {
+        "Invoice_id": item.invoice_id,
+        "answer": item.answer,
+        "question": item.question,
+        "retrieved_context": item.retrieved_context
+    }
+    for item in chat_hist
+    ]
+    history_text = "\n\n".join(
+        [
+            f"Previous Question: {item['question']}\nPrevious Answer: {item['answer']}"
+            for item in history
+            ]
+            )
+    
+    prompt = f"""
+User question:
+{payload.question}
+
+Relevant invoice context:
+{context_text}
+
+chat_history_for invoice:
+{history_text}
+
+Instructions:
+- Answer as a GenAI FinOps consultant.
+- Be direct and specific.
+- Use only the invoice context provided.
+- Do not say "based on the context provided".
+- If the data is insufficient, say what is missing.
+"""
+    
+    response=co.chat(
+        model="command-a-plus-05-2026",
+        messages=[
+            {"role":"user","content":prompt}
+        ]
+    )
+
+    return {
+        "answer":response
+    }
+    
+
+
