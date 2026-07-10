@@ -338,7 +338,7 @@ def rewrite_prompt(
     current_user: userid = Depends(get_current_user)
 ):
     response=co.chat(
-        model="command-a-plus-05-2026",
+        model="command-r7b-12-2024",
         messages=[
             {"role":"system","content":"Rewrite the user's question into 3 retrieval queries that preserve the meaning but vary the wording and angle. One per line, no numbering.",
              "role":"user","content":payload.question}
