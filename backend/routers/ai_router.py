@@ -340,12 +340,12 @@ def rewrite_prompt(
     response=co.chat(
         model="command-r7b-12-2024",
         messages=[
-            {"role":"system","content":"Rewrite the user's question into 3 retrieval queries that preserve the meaning but vary the wording and angle. One per line, no numbering.",
+            {"role":"system","content":"Rewrite the user's question into 3 retrieval keywords that preserve the meaning but vary the wording and angle. One per line, no numbering.",
              "role":"user","content":payload.question}
         ]
     )
      
-    new_query=response.message.content[1].text
+    new_query=response.message.content[0].text
 
     return{
         "new_query":new_query,
