@@ -5,6 +5,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from openai import AzureOpenAI
+from openai import OpenAI
 import requests
 
 from db_end.models import userid,chathistory,invoice_rows,invoice,optimization_rec
@@ -25,11 +26,9 @@ class AIOptimizeRequest(BaseModel):
     invoice_id: Optional[int]=None
 
 
-client = AzureOpenAI(
+client =OpenAI(base_url=os.getenv("AZURE_OPENAI_ENDPOINT"),
     api_key=os.getenv("OPENAI_API_KEY"),
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-    api_version=os.getenv("AZURE_OPENAI_API_VERSION")
-)
+    )
 
  
 
