@@ -315,7 +315,16 @@ Instructions:
     )
 
     answer=response.message.content[1].text
-
+    if payload.invoice_id is not None:
+        chat_history = chathistory(
+            invoice_id=payload.invoice_id,
+            question=payload.question,
+            answer=answer,
+            retrieved_context=json.dumps(context_blocks),
+        )
+        db.add(chat_history)
+        db.commit()
+        db.refresh(chat_history)
 
     return {
         "answer":answer
