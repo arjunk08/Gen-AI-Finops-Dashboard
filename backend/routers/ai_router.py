@@ -329,6 +329,27 @@ Instructions:
     return {
         "answer":answer
     }
-    
+
+
+@router.post("/rewrite")
+def rewrite_prompt(
+    payload: AIConsultRequest,
+    db: Session = Depends(get_db),
+    current_user: userid = Depends(get_current_user)
+):
+    response=co.chat(
+        model="command-a-plus-05-2026",
+        messages=[
+            {"role":"system","content":"Rewrite the user's question into 3 retrieval queries that preserve the meaning but vary the wording and angle. One per line, no numbering.",
+             "role":"user","content":payload.question}
+        ]
+    )
+     
+    new_query=response.message.content[1].text
+
+    return{
+        "new_query":new_query,
+        "original_query":payload.question
+    }
 
 

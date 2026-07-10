@@ -60,6 +60,18 @@ def reindex_invoices():
 
     return response
 
+def rewrite(question, invoice_id=None):
+    response = requests.post(
+        f"{API_BASE_URL}/ai/rewrite",
+        headers=get_auth_headers(),
+        json={
+            "question":question,
+            "invoice_id":invoice_id
+
+        },
+        timeout=99
+    )
+    return response
 
 def ask_ai(question, invoice_id=None):
     response = requests.post(
@@ -115,10 +127,18 @@ question = st.chat_input("Ask about your invoice, cost drivers, token usage, mod
 
 if question:
     with st.spinner("Analyzing invoice context..."):
-        response = ask_ai(
+        response1 = rewrite(
             question=question,
             invoice_id=invoice_id
         )
+        if response1.status_code == 200:
+            new_query=response1.json()
+            new_query.get("new_query")
+    response=ask_ai(
+        question=new_query,
+        invoice_id=invoice_id
+    )
+        
 
     if response.status_code == 200:
         data = response.json()
