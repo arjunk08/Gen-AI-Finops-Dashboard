@@ -135,7 +135,7 @@ if question:
             new_query=response1.json()
             new_query.get("new_query")
     response=ask_ai(
-        question=new_query,
+        question=f"{question}and help for retrieval {new_query}",
         invoice_id=invoice_id
     )
         
