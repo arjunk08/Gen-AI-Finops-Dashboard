@@ -314,9 +314,11 @@ Instructions:
         ]
     )
 
+    answer=response.message.content[1].text
+
 
     return {
-        "answer":response
+        "answer":answer
     }
     
 
