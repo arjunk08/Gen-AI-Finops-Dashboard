@@ -104,8 +104,10 @@ If the app is sleeping:
 2. Use the Streamlit prompt to wake or restart the application.
 3. Wait for the instance to initialize.
 4. Refresh the page if required.
-5. Continue using the dashboard normally.
-
+5. The first login or user register request may take upto a minute to respond because the backend lives on a free render instance, which sleeps due to inactivity
+6. Continue using the dashboard normally.
+7. You can try uploading a small sample dataset, but if the data is too big it might crash due to being hosted on a free render instance
+8. Use "testuser@email.com" as email and "test123" as password, for test user account wiith sample data uploaded
 ---
 
 ## Local Setup
