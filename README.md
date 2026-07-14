@@ -87,7 +87,7 @@ Gen-AI-Finops-Dashboard/
 | ORM          | **SQLAlchemy** — declarative models, session management                   |
 | Database     | **PostgreSQL** on Render (production), SQLite (tests)                     |
 | Vector Store | **ChromaDB** — persistent client, sentence-level embeddings per invoice row |
-| LLM          | **OpenAI** (Azure-compatible endpoint) + **Cohere** (Command R7B)        |
+| LLM          | **OpenAI_SDK** (Azure-compatible endpoint) + **Cohere** (Command R7B)        |
 | Auth         | **bcrypt** (passlib) + **python-jose** JWT (HS256)                        |
 | Visualization| **Matplotlib**, **Seaborn**, **Plotly**                                   |
 | CI/CD        | **GitHub Actions** (Ruff linter + pytest), deployed to **Render** + **Streamlit Cloud** |
