@@ -3,6 +3,8 @@ import pandas as pd
 import requests
 import numpy as np
 import os 
+from sklearn.linear_model import LinearRegression
+
 
 API_BASE_URL = os.getenv("API_BASE_URL")
 st.set_page_config("Forecast")
@@ -64,11 +66,35 @@ def api_extract_from_database(invoice_number):
         timeout=40
         )
     return response
+
+def predict_future_costs(df1):
+    start_date=np.array(pd.to_datetime(df1['billing_date'])).reshape(-1,1)
+    weeks=[]
+    for i in range(0,start_date.size):
+        weeks.append(i+1)
+    future_dates=[]
+    for i in range(weeks[-1],(len(weeks)+5)):
+        future_dates.append(i+1)
+    timep=np.array(weeks).reshape(-1,1)
+    period=np.array(future_dates).reshape(-1,1)
+    costs=np.array(df1["amount_usd"])
+    x_train=timep
+    y_train=costs
+    x_predicted=period
+    model=LinearRegression()
+    model.fit(x_train,y_train)
+    predictions=model.predict(x_predicted)
+    
+
+    return predictions
+
+
+
     
 
 
     
-
+_
 if st.session_state.user==None and st.session_state.access_token==None:
     st.info("No User logged in,Please log in first")
     st.divider()
@@ -92,9 +118,10 @@ else:
     col1,col2=st.columns(2)
     with col1:
         if st.button("Forecast Costs",use_container_width=True):
-            avg=sum(df1["amount_usd"])/len(df1["amount_usd"])
+            z1=predict_future_costs(df1)
+            st.write(z1)
             st.write(df1.head())
-            st.info("TO BE ADDED IN FUTURE UPDATES")
+           
     with col2:
         if st.button("Forecast Token Usage",use_container_width=True):
             st.write(df1.head())
