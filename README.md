@@ -27,7 +27,7 @@ An AI-powered FinOps dashboard for analyzing, visualizing, and optimizing Genera
                                            │                      │
                                     ┌──────▼──────┐     ┌────────▼────────┐
                                     │ PostgreSQL   │     │ ChromaDB        │
-                                    │ (Render)     │     │ (Persistent)    │
+                                    │ (NeonDB)     │     │ (Persistent)    │
                                     │              │     │ Vector Store    │
                                     └──────────────┘     └─────────────────┘
                                                                 │
