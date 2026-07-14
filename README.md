@@ -6,6 +6,8 @@
 ![License](https://img.shields.io/badge/License-Not%20specified-lightgrey)
 
 An AI-powered FinOps dashboard for understanding, analyzing, and optimizing Generative AI cloud spend.
+Enabled with a CI pipeline with tests before each new deployment on render.
+
 
 **Live app:** https://gen-ai-finops-dashboard.streamlit.app
 
