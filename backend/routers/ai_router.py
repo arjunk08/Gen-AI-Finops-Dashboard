@@ -252,7 +252,7 @@ def ai_consult_cohere(
         user_id=current_user.id,
         question=payload.question,
         invoice_id=payload.invoice_id,
-        n_results=50
+        n_results=10
     )
 
     if not context_blocks:
