@@ -6,7 +6,7 @@ import os
 from sklearn.linear_model import LinearRegression
 
 
-API_BASE_URL = os.getenv("API_BASE_URL")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
 st.set_page_config("Forecast")
 
 a,b,c,d=st.columns(4)

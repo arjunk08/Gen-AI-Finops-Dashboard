@@ -5,7 +5,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import re
 
-API_BASE_URL = "https://gen-ai-finops-dashboard.onrender.com"
+import os
+
+API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
 
 
 st.set_page_config(

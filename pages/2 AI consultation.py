@@ -4,7 +4,7 @@ import pandas as pd
 import os 
 
 
-API_BASE_URL = os.getenv("API_BASE_URL")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
 
 a,b,c,d=st.columns(4)
 with a:

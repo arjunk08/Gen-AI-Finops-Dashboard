@@ -6,7 +6,7 @@ import requests
 import matplotlib.pyplot as plt 
 import seaborn as sns
 
-API_BASE_URL = os.getenv("API_BASE_URL")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
 if "access_token" not in st.session_state:
     st.session_state.access_token = None
 
