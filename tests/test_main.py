@@ -12,11 +12,11 @@ client = TestClient(app)
 @pytest.fixture(scope="session", autouse=True)
 def cleanup_test_db():
     """Remove the temporary test database after tests complete."""
-    # We clear any existing db before starting
+    
     if os.path.exists("./test_dashboard.db"):
         os.remove("./test_dashboard.db")
     yield
-    # Cleanup after tests
+   
     if os.path.exists("./test_dashboard.db"):
         os.remove("./test_dashboard.db")
 

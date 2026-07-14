@@ -26,7 +26,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         # Install testing dependencies not in requirements.txt
-        pip install pytest httpx
+        pip install pytest httpx ruff
+
+    - name: Run Ruff linter
+      run: |
+        ruff check .
 
     - name: Run tests with pytest
       env:
