@@ -85,7 +85,7 @@ Gen-AI-Finops-Dashboard/
 | Frontend     | **Streamlit** — multipage app with session state auth                     |
 | Backend API  | **FastAPI** — REST endpoints, OAuth2 bearer token auth                    |
 | ORM          | **SQLAlchemy** — declarative models, session management                   |
-| Database     | **PostgreSQL** on Render (production), SQLite (tests)                     |
+| Database     | **PostgreSQL** on NeonDB (production), SQLite (tests)                     |
 | Vector Store | **ChromaDB** — persistent client, sentence-level embeddings per invoice row |
 | LLM          | **OpenAI_SDK** (Azure-compatible endpoint) + **Cohere** (Command R7B)        |
 | Auth         | **bcrypt** (passlib) + **python-jose** JWT (HS256)                        |
@@ -239,11 +239,11 @@ See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for the full workflow
 
 ## Deployment
 
-| Component | Platform          | Notes                                                    |
-|-----------|-------------------|----------------------------------------------------------|
-| Backend   | **Render**        | Free tier — may sleep after inactivity (~30s cold start) |
-| Frontend  | **Streamlit Cloud**| Free tier — may sleep after inactivity                   |
-| Database  | **Render PostgreSQL** | Managed PostgreSQL on Render                         |
+| Component | Platform          | Notes                                                                          |
+|-----------|-------------------|--------------------------------------------------------------------------------|
+| Backend   | **Render**        | Free tier — may sleep after inactivity (~30s cold start)                       |
+| Frontend  | **Streamlit Cloud**| Free tier — may sleep after inactivity                                        |
+| Database  | **NeonDB**        | Serverless PostgreSQL — connection string via `DATABASE_URL` environment variable |
 
 ---
 
