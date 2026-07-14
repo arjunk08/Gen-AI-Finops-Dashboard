@@ -16,3 +16,4 @@ openai
 python-dotenv
 cohere
 sentence-transformers
+psycopg2-binary
