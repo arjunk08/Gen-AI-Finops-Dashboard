@@ -2,10 +2,9 @@ import streamlit as st
 import pandas as pd 
 import requests
 import numpy as np
+import os 
 
-#API_BASE_URL = "http://127.0.0.1:8000"
-API_BASE_URL = "https://gen-ai-finops-dashboard.onrender.com"
-
+API_BASE_URL = os.getenv("API_BASE_URL")
 st.set_page_config("Forecast")
 
 a,b,c,d=st.columns(4)
