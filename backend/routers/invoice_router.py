@@ -197,41 +197,7 @@ def save_file(df, file_name, file_hash="", db: Session = None, user_id: int = No
             db.add(new_row)
 
         db.commit()
-        db.refresh(new_invoice)
 
-        for index, row in df.iterrows():
-            raw_data = row.fillna("").astype(str).to_dict()
-
-            row_amount = safe_float(row[amount_col]) if amount_col and pd.notna(row[amount_col]) else 0.0
-            row_tokens = safe_int(row[token_col]) if token_col and pd.notna(row[token_col]) else 0
-            row_requests = safe_int(row[request_col]) if request_col and pd.notna(row[request_col]) else 0
-            row_input_tokens = safe_int(row[input_token_col]) if input_token_col and pd.notna(row[input_token_col]) else 0
-            row_output_tokens = safe_int(row[output_token_col]) if output_token_col and pd.notna(row[output_token_col]) else 0
-
-            new_row = invoice_rows(
-                invoice_id=new_invoice.id,
-
-                billing_date=str(row[date_col]) if date_col and pd.notna(row[date_col]) else None,
-                provider=str(row[provider_col]) if provider_col and pd.notna(row[provider_col]) else None,
-                application=str(row[app_col]) if app_col and pd.notna(row[app_col]) else None,
-                team=str(row[team_col]) if team_col and pd.notna(row[team_col]) else None,
-                business_unit=str(row[business_unit_col]) if business_unit_col and pd.notna(row[business_unit_col]) else None,
-                Model=str(row[model_col]) if model_col and pd.notna(row[model_col]) else None,
-
-                request_count=row_requests,
-                input_tokens=row_input_tokens,
-                output_tokens=row_output_tokens,
-                total_tokens=row_tokens,
-
-                amount_usd=row_amount,
-
-                raw_data=json.dumps(raw_data),
-                chroma_id=f"{new_invoice.id}_{index}"
-            )
-
-            db.add(new_row)
-
-        db.commit()
         index_result = index_invoice_rows(
             db=db,
             user_id=userid.id,
