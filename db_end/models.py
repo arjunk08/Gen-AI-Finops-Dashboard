@@ -1,5 +1,5 @@
 from db_end.db1 import Base
-from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, BigInteger, String, Float, Text, DateTime, ForeignKey
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
@@ -25,8 +25,8 @@ class invoice(Base):
     invoice_id=Column(Integer,ForeignKey("users.id"),nullable=False)
     file_name=Column(String,nullable=False)
     file_hashid=Column(String,nullable=False)
-    total_cost=Column(Integer)
-    total_tokens=Column(Integer)
+    total_cost=Column(Float)
+    total_tokens=Column(BigInteger)
     row_count=Column(Integer)
 
     userid=relationship("userid",back_populates="invoices")
@@ -55,10 +55,10 @@ class invoice_rows(Base):
     business_unit = Column(String,nullable=True)
     Model=Column(String,nullable=True)
     
-    request_count = Column(Integer, default=0)
-    input_tokens = Column(Integer, default=0)
-    output_tokens = Column(Integer, default=0)
-    total_tokens = Column(Integer, default=0)
+    request_count = Column(BigInteger, default=0)
+    input_tokens = Column(BigInteger, default=0)
+    output_tokens = Column(BigInteger, default=0)
+    total_tokens = Column(BigInteger, default=0)
 
     rate_usd = Column(Float, default=0)
     amount_usd = Column(Float, default=0)
