@@ -237,7 +237,9 @@ Instructions:
             "answer": answer,
             "context_used": context_blocks,
             }
-    
+
+#def rerank(context_blocks, question):
+
 @router.post("/consult/cohere")
 def ai_consult_cohere(
     payload: AIConsultRequest,
@@ -254,6 +256,7 @@ def ai_consult_cohere(
         invoice_id=payload.invoice_id,
         n_results=10
     )
+    
 
     if not context_blocks:
         return {
