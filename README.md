@@ -80,8 +80,8 @@ A future release will introduce forecasting capabilities to help teams:
 ## Technology Stack
 
 - **Python** – Core application logic and data processing
-- **Sqlite3** - Database used
-- **FastAPI** - Main IPC connector between the streamlit frontend and the SQlite3 backend
+- **Render PostgreSQL** - Database (switched from sqlite3)
+- **FastAPI** - Main IPC connector between the streamlit frontend and the PostgreSQL backend
 - **SQLAlchemy** - ORM
 - **Streamlit** – Interactive dashboard interface
 - **Generative AI / LLM Integration** – AI-powered consultation and recommendations
@@ -174,7 +174,7 @@ Gen-AI-Finops-Dashboard/
 ├── Sample-data/            # Sample or uploaded invoice/cost data
 ├── pages/                  # Optional Streamlit multipage views
 ├── backend/                # Business logic, helpers, and AI modules
-└── db_end/                 # Sqlite initialized database
+└── db_end/                 # PostgresSQL initialized database
 ```
 
 
