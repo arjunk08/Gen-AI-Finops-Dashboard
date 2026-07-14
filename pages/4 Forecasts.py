@@ -94,7 +94,7 @@ def predict_future_costs(df1):
 
 
     
-_
+
 if st.session_state.user==None and st.session_state.access_token==None:
     st.info("No User logged in,Please log in first")
     st.divider()
