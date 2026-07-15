@@ -35,5 +35,6 @@ jobs:
     - name: Run tests with pytest
       env:
         DATABASE_URL: sqlite:///./test_dashboard.db
+        PYTHONPATH: .
       run: |
-        pytest tests/
+        python -m pytest tests/

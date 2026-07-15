@@ -2,8 +2,6 @@ import os
 import pytest 
 from fastapi.testclient import TestClient
 
-# Set a temporary SQLite database for testing before importing the main app
-os.environ["DATABASE_URL"] = "sqlite:///./test_dashboard.db"
 
 from backend.main import app
 
@@ -12,13 +10,28 @@ client = TestClient(app)
 @pytest.fixture(scope="session", autouse=True)
 def cleanup_test_db():
     """Remove the temporary test database after tests complete."""
+    import time
     
     if os.path.exists("./test_dashboard.db"):
-        os.remove("./test_dashboard.db")
+        try:
+            os.remove("./test_dashboard.db")
+        except OSError:
+            pass
+            
     yield
    
+    try:
+        from db_end.db1 import engine
+        engine.dispose()
+        time.sleep(0.1) # Give OS a moment to release locks
+    except Exception:
+        pass
+
     if os.path.exists("./test_dashboard.db"):
-        os.remove("./test_dashboard.db")
+        try:
+            os.remove("./test_dashboard.db")
+        except OSError:
+            pass
 
 def test_read_root():
     """Test the root endpoint to ensure the API is running."""
