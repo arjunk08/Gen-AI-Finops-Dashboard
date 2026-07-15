@@ -1,6 +1,5 @@
 import streamlit as st
 import requests
-import pandas as pd
 import os 
 
 
@@ -26,7 +25,7 @@ if "access_token" not in st.session_state or not st.session_state.access_token:
     st.info("No user logged in, Please login first.")
     st.divider()
     if st.button("Log in now",icon_position="right",use_container_width=True):
-        st.switch_page("Dashboard.py") and go_to_login()
+        st.switch_page("Dashboard.py")
     st.stop()
 
 

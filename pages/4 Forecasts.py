@@ -95,11 +95,11 @@ def predict_future_costs(df1):
 
     
 
-if st.session_state.user==None and st.session_state.access_token==None:
+if st.session_state.user is None and st.session_state.access_token is None:
     st.info("No User logged in,Please log in first")
     st.divider()
     if st.button("Log in now",icon_position="right",use_container_width=True):
-        st.switch_page("Dashboard.py") and go_to_login()
+        st.switch_page("Dashboard.py")
 else:
 
     invoices=fetch_my_invoices()

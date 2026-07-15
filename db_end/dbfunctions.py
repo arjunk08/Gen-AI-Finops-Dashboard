@@ -2,12 +2,8 @@ import json
 import re
 import pandas as pd
 
-from sqlalchemy import func
-from fastapi import FastAPI
-from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from db_end.db1 import SessionLocal
-from db_end.models import invoice, invoice_rows, chathistory, optimization_rec , userid
-from argon2 import PasswordHasher
+from db_end.models import invoice, invoice_rows
 
 
 def get_db_session():

@@ -1,5 +1,4 @@
 from db_end.db1 import engine, Base
-import db_end.models
 
 def create_tables():
     Base.metadata.create_all(bind=engine)

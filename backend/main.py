@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
 from db_end.db1 import engine, Base
-import db_end.models
 
 from backend.routers import auth_router, invoice_router,ai_router
 

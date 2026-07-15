@@ -4,12 +4,12 @@ import pandas as pd
 import re
 from db_end.models import invoice, userid,invoice_rows, chathistory
 from backend.dependancies import get_db, get_current_user
-from sqlalchemy import func,select
+from sqlalchemy import func
 import json
 import io
 import hashlib
 from backend.vector_store import index_invoice_rows
-from backend.vector_store import index_invoice_rows, debug_chroma_for_user, debug_chroma_all
+from backend.vector_store import debug_chroma_for_user, debug_chroma_all
 
 router = APIRouter()
 
@@ -198,7 +198,7 @@ def save_file(df, file_name, file_hash="", db: Session = None, user_id: int = No
 
         db.commit()
 
-        index_result = index_invoice_rows(
+        index_invoice_rows(
             db=db,
             user_id=userid.id,
             invoice_id=new_invoice.id

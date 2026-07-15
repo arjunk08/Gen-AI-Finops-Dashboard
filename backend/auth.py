@@ -1,10 +1,5 @@
-from fastapi import exceptions
-from fastapi.security import OAuth2PasswordBearer
-from fastapi import FastAPI
-import sqlalchemy
 from passlib.context import CryptContext
 from jose import jwt,JWTError
-import pydantic
 from datetime import timedelta,datetime
 import os
 

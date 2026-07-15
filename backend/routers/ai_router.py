@@ -4,11 +4,9 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from openai import AzureOpenAI
 from openai import OpenAI
-import requests
 import cohere
-from db_end.models import userid,chathistory,invoice_rows,invoice,optimization_rec
+from db_end.models import userid,chathistory,optimization_rec
 from backend.dependancies import get_current_user,get_db,Session
 from backend.vector_store import query_user_context
 from backend.ai_protection import check_rate_limit,check_ai_request
@@ -188,7 +186,7 @@ def ai_optimization(
             "invoice_id":optimize_hist.invoice_id,
             "answer":optimize_hist.steps
             }
-    except:
+    except Exception:
         prompt = f"""
 User question:
 {payload.question}
@@ -313,7 +311,8 @@ Instructions:
     response=co.chat(
         model="command-r7b-12-2024",
         messages=[
-            {"role":"system","content":"You are a helpful financial assitant who analyzes Genrative AI Usage answer accordingly to whatever the user asks, dont give too big answers be direct and do not calculate anything on your own","role":"user","content":prompt}
+            {"role":"system","content":"You are a helpful financial assitant who analyzes Genrative AI Usage answer accordingly to whatever the user asks, dont give too big answers be direct and do not calculate anything on your own"},
+            {"role":"user","content":prompt}
         ]
     )
 
@@ -343,8 +342,8 @@ def rewrite_prompt(
     response=co.chat(
         model="command-r7b-12-2024",
         messages=[
-            {"role":"system","content":"Rewrite the user's question into 3 retrieval keywords that preserve the meaning but vary the wording and angle. One per line, no numbering.",
-             "role":"user","content":payload.question}
+            {"role":"system","content":"Rewrite the user's question into 3 retrieval keywords that preserve the meaning but vary the wording and angle. One per line, no numbering."},
+            {"role":"user","content":payload.question}
         ]
     )
      
