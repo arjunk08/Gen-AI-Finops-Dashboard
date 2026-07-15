@@ -11,11 +11,8 @@ def cleanup_test_db():
     """Remove the temporary test database after tests complete."""
     import time
     
-    if os.path.exists("./test_runner_db.sqlite"):
-        try:
-            os.remove("./test_runner_db.sqlite")
-        except OSError:
-            pass
+    # We do NOT delete the database here on setup because backend.main has already 
+    # created the tables during import. Deleting it here breaks SQLite on Linux!
             
     yield
    
