@@ -2,6 +2,12 @@ import os
 import pytest 
 from fastapi.testclient import TestClient
 
+# Set dummy environment variables to prevent OpenAI/Cohere from crashing on import during tests
+os.environ["DATABASE_URL"] = "sqlite:///./test_dashboard.db"
+os.environ["OPENAI_API_KEY"] = "dummy_openai_key"
+os.environ["AZURE_OPENAI_ENDPOINT"] = "https://dummy.openai.azure.com"
+os.environ["COHERE_API_KEY"] = "dummy_cohere_key"
+os.environ["KEY"] = "dummy_jwt_secret_key"
 
 from backend.main import app
 
