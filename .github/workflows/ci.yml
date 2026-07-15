@@ -33,7 +33,7 @@ jobs:
 
     - name: Run tests with pytest
       env:
-        DATABASE_URL: sqlite:///./test_dashboard.db
+        DATABASE_URL: sqlite:///test_runner_db.sqlite
         OPENAI_API_KEY: dummy_openai_key
         AZURE_OPENAI_ENDPOINT: https://dummy.openai.azure.com
         COHERE_API_KEY: dummy_cohere_key

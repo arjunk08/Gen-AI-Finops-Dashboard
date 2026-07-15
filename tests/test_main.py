@@ -11,9 +11,9 @@ def cleanup_test_db():
     """Remove the temporary test database after tests complete."""
     import time
     
-    if os.path.exists("./test_dashboard.db"):
+    if os.path.exists("./test_runner_db.sqlite"):
         try:
-            os.remove("./test_dashboard.db")
+            os.remove("./test_runner_db.sqlite")
         except OSError:
             pass
             
@@ -26,9 +26,9 @@ def cleanup_test_db():
     except Exception:
         pass
 
-    if os.path.exists("./test_dashboard.db"):
+    if os.path.exists("./test_runner_db.sqlite"):
         try:
-            os.remove("./test_dashboard.db")
+            os.remove("./test_runner_db.sqlite")
         except OSError:
             pass
 
