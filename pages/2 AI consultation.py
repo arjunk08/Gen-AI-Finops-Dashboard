@@ -74,7 +74,7 @@ def rewrite(question, invoice_id=None):
 
 def ask_ai(question, invoice_id=None):
     response = requests.post(
-        f"{API_BASE_URL}/ai/consult/cohere",
+        f"{API_BASE_URL}/ai/consult/groq",
         headers=get_auth_headers(),
         json={
             "question": question,
