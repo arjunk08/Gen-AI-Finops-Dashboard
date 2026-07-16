@@ -221,7 +221,7 @@ Instructions:
 """
 
     response = groq.chat.completions.create(
-        model="compound",
+        model="groq/compound",
         messages=[
             {
                 "role": "system",
