@@ -132,9 +132,9 @@ if question:
         )
         if response1.status_code == 200:
             new_query=response1.json()
-            new_query.get("new_query")
+            r1=new_query.get("new_query")
     response=ask_ai(
-        question=f"{question}",
+        question=f"{question}and context help is {r1}",
         invoice_id=invoice_id
     )
         

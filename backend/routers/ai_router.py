@@ -221,7 +221,7 @@ Instructions:
 """
 
     response = groq.chat.completions.create(
-        model="openai/gpt-oss-20b",
+        model="compound",
         messages=[
             {
                 "role": "system",
@@ -316,8 +316,8 @@ Instructions:
 - Do not say "based on the context provided".
 - If the data is insufficient, say what is missing.
 """
-        response = client.chat.completions.create(
-            model=os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME"),
+        response = groq.chat.completions.create(
+            model="llama-3.3-70b-versatile",
             messages=[
                 {
                     "role": "system",
@@ -334,8 +334,8 @@ Instructions:
                 "role": "user",
                 "content": prompt,
                 }
-            ],
-            temperature=0.2
+            ]
+            
         )
         answer = response.choices[0].message.content
         optimization = optimization_rec(
@@ -353,100 +353,6 @@ Instructions:
 
 #def rerank(context_blocks, question):
 
-@router.post("/consult/cohere")
-def ai_consult_cohere(
-    payload: AIConsultRequest,
-    db: Session = Depends(get_db),
-    current_user: userid = Depends(get_current_user)
-):
-    check_ai_request(payload)
-
-    check_rate_limit(current_user,5,15)
-
-    context_blocks = query_user_context(
-        user_id=current_user.id,
-        question=payload.question,
-        invoice_id=payload.invoice_id,
-        n_results=10
-    )
-    
-
-    if not context_blocks:
-        return {
-            "answer": "No invoice context was found. Please upload and index invoice data first.",
-            "context_used": []
-        }
-
-    context_text = "\n\n".join(
-        [
-            f"Context Row {index + 1}:\n{item['document']}"
-            for index, item in enumerate(context_blocks)
-        ]
-    )
-
-    chat_hist = (
-    db.query(chathistory)
-    .filter(chathistory.invoice_id == payload.invoice_id)
-    .all())
-
-    history = [
-    {
-        "Invoice_id": item.invoice_id,
-        "answer": item.answer,
-        "question": item.question,
-        "retrieved_context": item.retrieved_context
-    }
-    for item in chat_hist
-    ]
-    history_text = "\n\n".join(
-        [
-            f"Previous Question: {item['question']}\nPrevious Answer: {item['answer']}"
-            for item in history
-            ]
-            )
-    
-    prompt = f"""
-User question:
-{payload.question}
-
-Relevant invoice context:
-{context_text}
-
-chat_history_for invoice:
-{history_text}
-
-Instructions:
-- Answer as a GenAI FinOps consultant.
-- Be direct and specific.
-- Use only the invoice context provided.
-- Do not say "based on the context provided".
-- If the data is insufficient, say what is missing.
-"""
-    
-    response=co.chat(
-        model="command-r7b-12-2024",
-        messages=[
-            {"role":"system","content":"You are a helpful financial assitant who analyzes Genrative AI Usage answer accordingly to whatever the user asks, dont give too big answers be direct and do not calculate anything on your own"},
-            {"role":"user","content":prompt}
-        ]
-    )
-
-    answer=response.message.content[1].text
-    if payload.invoice_id is not None:
-        chat_history = chathistory(
-            invoice_id=payload.invoice_id,
-            question=payload.question,
-            answer=answer,
-            retrieved_context=json.dumps(context_blocks),
-        )
-        db.add(chat_history)
-        db.commit()
-        db.refresh(chat_history)
-
-    return {
-        "answer":answer
-    }
-
 
 @router.post("/rewrite")
 def rewrite_prompt(
@@ -454,15 +360,16 @@ def rewrite_prompt(
     db: Session = Depends(get_db),
     current_user: userid = Depends(get_current_user)
 ):
-    response=co.chat(
-        model="command-r7b-12-2024",
+    response=groq.chat.completions.create(
+        model="meta-llama/llama-4-scout-17b-16e-instruct",
         messages=[
             {"role":"system","content":"Rewrite the user's question into 3 retrieval keywords that preserve the meaning but vary the wording and angle. One per line, no numbering."},
             {"role":"user","content":payload.question}
         ]
     )
-     
-    new_query=response.message.content[0].text
+    
+
+    new_query=response.choices[0].message.content
 
     return{
         "new_query":new_query,
