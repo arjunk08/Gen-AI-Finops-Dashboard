@@ -89,12 +89,32 @@ def predict_future_costs(df1):
     return predictions
 
 
+def predict_future_tokens(df1):
+    start_date=np.array(pd.to_datetime(df1['billing_date'])).reshape(-1,1)
+    weeks=[]
+    for i in range(0,start_date.size):
+        weeks.append(i+1)
+    future_dates=[]
+    for i in range(weeks[-1],(len(weeks)+5)):
+        future_dates.append(i+1)
+    timep=np.array(weeks).reshape(-1,1)
+    period=np.array(future_dates).reshape(-1,1)
+    tokens=np.array(df1["total_tokens"])
+    x_train=timep
+    y_train=tokens
+    x_predicted=period
+    model=LinearRegression()
+    model.fit(x_train,y_train)
+    predictions=model.predict(x_predicted)
+    
+    return predictions
+
 
     
 
 
     
-
+    
 if st.session_state.user is None and st.session_state.access_token is None:
     st.info("No User logged in,Please log in first")
     st.divider()
@@ -124,8 +144,9 @@ else:
            
     with col2:
         if st.button("Forecast Token Usage",use_container_width=True):
-            st.write(df1.head())
-            st.info("TO BE ADDED IN FUTURE UPDATES")
+            z2=predict_future_tokens(df1)
+            st.write(z2)
+            
 
     
 
