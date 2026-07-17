@@ -1,2 +1,7 @@
+[project]
+name = "gen-ai-finops-dashboard"
+version = "0.1.0"
+description = "Gen AI Finops Dashboard"
+
 [tool.vercel]
 entrypoint = "backend.main:app"
