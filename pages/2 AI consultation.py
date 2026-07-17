@@ -143,7 +143,8 @@ if question:
         data = response.json()
 
         st.subheader(":blue[AI] Answer")
-        st.write(data.get("answer", ""))
+        st.write(data.get("answer",""))
+        st.write(data.get("context_used"))
 
 
     else:

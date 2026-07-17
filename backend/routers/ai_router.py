@@ -135,7 +135,7 @@ Instructions:
 
     return {
         "answer": answer,
-        "context_used": context_blocks,
+        "context_used": context_text,
         
 
     }

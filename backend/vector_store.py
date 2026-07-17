@@ -1,5 +1,7 @@
 from pathlib import Path
 import chromadb
+from sentence_transformers.cross_encoder import CrossEncoder
+
 
 from db_end.models import invoice_rows
 
@@ -14,6 +16,8 @@ chroma_client = chromadb.PersistentClient(
 collection = chroma_client.get_or_create_collection(
     name="genai_invoice_rows"
 )
+
+
 
 
 def invoice_row_to_document(row):
@@ -94,6 +98,14 @@ def index_invoice_rows(db, user_id, invoice_id):
         "chroma_path": str(CHROMA_PATH)
     }
 
+def rerank(question,document):
+    model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L6-v2")
+    sentence_pairs = [[question,hit["text"]]for hit in document]
+
+    
+    scores = model.predict(sentence_pairs)
+    reranked=sorted(zip(document, scores), key=lambda x: x[1], reverse=True)
+    return reranked
 
 def query_user_context(user_id, question, invoice_id=None, n_results=10):
     user_id = str(user_id)
@@ -118,12 +130,14 @@ def query_user_context(user_id, question, invoice_id=None, n_results=10):
 
     documents = result.get("documents", [[]])[0]
     metadatas = result.get("metadatas", [[]])[0]
+    newdocs=rerank(question,documents)
+
 
     context_blocks = []
 
     for document, metadata in zip(documents, metadatas):
         context_blocks.append({
-            "document": document,
+            "document": newdocs,
             "metadata": metadata
         })
 
