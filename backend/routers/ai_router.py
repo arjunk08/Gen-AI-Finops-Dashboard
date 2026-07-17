@@ -5,7 +5,6 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from openai import OpenAI
-import cohere
 from db_end.models import userid,chathistory,optimization_rec
 from backend.dependancies import get_current_user,get_db,Session
 from backend.vector_store import query_user_context
@@ -24,131 +23,11 @@ class AIOptimizeRequest(BaseModel):
     invoice_id: Optional[int]=None
 
 
-client =OpenAI(base_url=os.getenv("AZURE_OPENAI_ENDPOINT"),
-    api_key=os.getenv("OPENAI_API_KEY"),
-    )
-
-co=cohere.ClientV2(api_key=os.getenv("COHERE_API_KEY"))
-
 groq=OpenAI(base_url=os.getenv("GROQ_API_ENDPOINT"),
             api_key=os.getenv("GROQ_API_KEY"),
             )
 
- 
 
-
-
-@router.post("/consult")
-def ai_consultation(
-    payload: AIConsultRequest,
-    db: Session = Depends(get_db),
-    current_user: userid = Depends(get_current_user)
-):
-    check_ai_request(payload)
-
-    check_rate_limit(current_user,5,15)
-
-    context_blocks = query_user_context(
-        user_id=current_user.id,
-        question=payload.question,
-        invoice_id=payload.invoice_id,
-        n_results=15
-    )
-
-    if not context_blocks:
-        return {
-            "answer": "No invoice context was found. Please upload and index invoice data first.",
-            "context_used": []
-        }
-
-    context_text = "\n\n".join(
-        [
-            f"Context Row {index + 1}:\n{item['document']}"
-            for index, item in enumerate(context_blocks)
-        ]
-    )
-
-    chat_hist = (
-    db.query(chathistory)
-    .filter(chathistory.invoice_id == payload.invoice_id)
-    .all())
-
-    history = [
-    {
-        "Invoice_id": item.invoice_id,
-        "answer": item.answer,
-        "question": item.question,
-        "retrieved_context": item.retrieved_context
-    }
-    for item in chat_hist
-    ]
-    history_text = "\n\n".join(
-        [
-            f"Previous Question: {item['question']}\nPrevious Answer: {item['answer']}"
-            for item in history
-            ]
-            )
-
-    prompt = f"""
-User question:
-{payload.question}
-
-Relevant invoice context:
-{context_text}
-
-chat_history_for invoice:
-{history_text}
-
-Instructions:
-- Answer as a GenAI FinOps consultant.
-- Be direct and specific.
-- Use only the invoice context provided.
-- Do not say "based on the context provided".
-- If the data is insufficient, say what is missing.
-"""
-
-    response = client.chat.completions.create(
-        model=os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME"),
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are a GenAI cost management consultant. "
-                    "You analyze AI invoices, token usage, model spend, "
-                    "application spend, provider usage, and optimization opportunities."
-                    "do not make calculate anything or make up data, if no cost or spend is asked directly do not provide in the answer"
-                    "analyse the chat history presented to you and if the question is simillar return the answer to save time and compute"
-                    "if asked about previous question return previous question and answer"
-                )
-            },
-            {
-                "role": "user",
-                "content": prompt,
-            }
-        ],
-        temperature=0.2,
-        max_completion_tokens=400
-    )
-
-    answer = response.choices[0].message.content
-
-    if payload.invoice_id is not None:
-        chat_history = chathistory(
-            invoice_id=payload.invoice_id,
-            question=payload.question,
-            answer=answer,
-            retrieved_context=json.dumps(context_blocks),
-        )
-        db.add(chat_history)
-        db.commit()
-        db.refresh(chat_history)
-
-    return {
-        "answer": answer,
-        "context_used": context_blocks,
-        
-
-    }
 
 
 @router.post("/consult/groq")

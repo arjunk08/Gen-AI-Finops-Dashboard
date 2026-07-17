@@ -14,7 +14,6 @@ bcrypt==4.0.1
 chromadb
 openai
 python-dotenv
-cohere
 sentence-transformers
 psycopg2-binary
 pytest
