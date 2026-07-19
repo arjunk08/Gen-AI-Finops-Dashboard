@@ -14,6 +14,8 @@ bcrypt==4.0.1
 chromadb
 openai
 python-dotenv
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
 sentence-transformers
 psycopg2-binary
 pytest
