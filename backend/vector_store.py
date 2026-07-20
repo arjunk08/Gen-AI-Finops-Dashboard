@@ -1,7 +1,7 @@
 from pathlib import Path
 import chromadb
-from sentence_transformers.cross_encoder import CrossEncoder
-
+import os
+import requests
 
 from db_end.models import invoice_rows
 
@@ -98,14 +98,38 @@ def index_invoice_rows(db, user_id, invoice_id):
         "chroma_path": str(CHROMA_PATH)
     }
 
-def rerank(question,document):
-    model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L6-v2")
-    sentence_pairs = [[question,hit["text"]]for hit in document]
+def rerank(question, documents, metadatas):
+    cohere_key = os.getenv("COHERE_API_KEY")
+    if not cohere_key or not documents:
+        return documents, metadatas
 
-    
-    scores = model.predict(sentence_pairs)
-    reranked=sorted(zip(document, scores), key=lambda x: x[1], reverse=True)
-    return reranked
+    url = "https://api.cohere.com/v1/rerank"
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "Authorization": f"Bearer {cohere_key}"
+    }
+    payload = {
+        "model": "rerank-english-v3.0",
+        "query": question,
+        "documents": documents,
+        "top_n": len(documents)
+    }
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=10)
+        response.raise_for_status()
+        results = response.json().get("results", [])
+        
+        reranked_docs = []
+        reranked_metas = []
+        for r in results:
+            idx = r["index"]
+            reranked_docs.append(documents[idx])
+            reranked_metas.append(metadatas[idx])
+        return reranked_docs, reranked_metas
+    except Exception as e:
+        print(f"Cohere rerank failed: {e}")
+        return documents, metadatas
 
 def query_user_context(user_id, question, invoice_id=None, n_results=10):
     user_id = str(user_id)
@@ -130,14 +154,16 @@ def query_user_context(user_id, question, invoice_id=None, n_results=10):
 
     documents = result.get("documents", [[]])[0]
     metadatas = result.get("metadatas", [[]])[0]
-    newdocs=rerank(question,documents)
+    
+    # Rerank the documents using Cohere
+    documents, metadatas = rerank(question, documents, metadatas)
 
 
     context_blocks = []
 
     for document, metadata in zip(documents, metadatas):
         context_blocks.append({
-            "document": newdocs,
+            "document": document,
             "metadata": metadata
         })
 
