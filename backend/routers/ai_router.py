@@ -240,7 +240,7 @@ def rewrite_prompt(
     current_user: userid = Depends(get_current_user)
 ):
     response=groq.chat.completions.create(
-        model="meta-llama/llama-4-scout-17b-16e-instruct",
+        model="openai/gpt-oss-20b",
         messages=[
             {"role":"system","content":"Rewrite the user's question into 3 retrieval keywords that preserve the meaning but vary the wording and angle. One per line, no numbering."},
             {"role":"user","content":payload.question}
