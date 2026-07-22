@@ -29,6 +29,9 @@ An AI-powered FinOps dashboard for analyzing, visualizing, and optimizing Genera
                                     │ PostgreSQL   │     │ ChromaDB        │
                                     │ (NeonDB)     │     │ (Persistent)    │
                                     │              │     │ Vector Store    │
+                                    │              │     │         +       │
+                                                         │     reranking   │
+                                                         │ using Cohere API│
                                     └──────────────┘     └─────────────────┘
                                                                 │
                                                       ┌────────▼────────┐
@@ -37,7 +40,7 @@ An AI-powered FinOps dashboard for analyzing, visualizing, and optimizing Genera
                                                       └─────────────────┘
 ```
 
-The frontend (Streamlit) communicates exclusively with the backend (FastAPI) over HTTPS. The backend handles all database operations, authentication, vector indexing, and LLM calls.
+The frontend (Streamlit) communicates exclusively with the backend (FastAPI) over HTTPS. The backend handles all database operations, authentication, vector indexing, Rewriting query, Reranking & retrieval using Cohere API, and LLM calls for answer.
 
 ---
 
@@ -56,7 +59,7 @@ Gen-AI-Finops-Dashboard/
 │   ├── auth.py                     # Password hashing (bcrypt), JWT creation & decoding
 │   ├── dependancies.py             # get_db session, get_current_user dependency
 │   ├── ai_protection.py            # Input validation, in-memory rate limiting
-│   ├── vector_store.py             # ChromaDB: index invoice rows, query context
+│   ├── vector_store.py             # ChromaDB: index invoice rows, query context,reranking and retrieval
 │   └── routers/
 │       ├── auth_router.py          # POST /auth/register, /auth/login, /auth/token
 │       ├── invoice_router.py       # Upload, list, delete, reindex invoices
@@ -86,8 +89,8 @@ Gen-AI-Finops-Dashboard/
 | Backend API  | **FastAPI** — REST endpoints, OAuth2 bearer token auth                    |
 | ORM          | **SQLAlchemy** — declarative models, session management                   |
 | Database     | **PostgreSQL** on NeonDB (production), SQLite (tests)                     |
-| Vector Store | **ChromaDB** — persistent client, sentence-level embeddings per invoice row |
-| LLM          | **OpenAI_SDK** (Azure-compatible endpoint) + **Cohere** (Command R7B)        |
+| Vector Store | **ChromaDB & CohereAPI** — persistent client, sentence embeddings per invoice row + Retrieval & Reranking|
+| LLM          | **OpenAI_SDK** (Azure-compatible endpoint) + (Groq API Using OpenAI SDK)  |
 | Auth         | **bcrypt** (passlib) + **python-jose** JWT (HS256)                        |
 | Visualization| **Matplotlib**, **Seaborn**, **Plotly**                                   |
 | CI/CD        | **GitHub Actions** (Ruff linter + pytest), deployed to **Render** + **Streamlit Cloud** |
@@ -132,9 +135,10 @@ Gen-AI-Finops-Dashboard/
 
 1. **Upload** — Invoice CSV/XLSX is parsed with Pandas. Columns are fuzzy-matched to a standard schema (amount, tokens, model, provider, etc.).
 2. **Index** — Each parsed row is serialized into a natural-language document string and added to ChromaDB with metadata (`user_id`, `invoice_id`, `provider`, `model`).
-3. **Query** — User question is embedded by ChromaDB's default model, filtered to the user's data, and top-N rows are retrieved.
-4. **Generate** — Retrieved context + chat history are sent to the LLM with a system prompt tailored for FinOps analysis.
-5. **Cache** — Chat history is persisted in PostgreSQL per invoice. Optimization results are cached to avoid redundant LLM calls.
+3. **Query** — User question is rewritten to give more context for chroma retrieval and then embedded by ChromaDB's default model, filtered to the user's data, and top-N rows are retrieved.
+4. **Reranking** - context is reranked using a cross-encoder from Cohere API
+5. **Generate** — Reranked context + chat history are sent to the LLM with a system prompt tailored for FinOps analysis.
+6. **Cache** — Chat history is persisted in PostgreSQL per invoice. Optimization results are cached to avoid redundant LLM calls.
 
 ---
 
