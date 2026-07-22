@@ -16,3 +16,4 @@ openai
 python-dotenv
 psycopg2-binary
 pytest
+cohere
