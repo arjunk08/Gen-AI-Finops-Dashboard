@@ -6,7 +6,9 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20Store-orange)
 ![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF)
+![OpenAI SDK](https://img.shields.io/badge/?modal=icon&q=openaigym)
 ![Status](https://img.shields.io/badge/Status-Active-success)
+
 
 An AI-powered FinOps dashboard for analyzing, visualizing, and optimizing Generative AI cloud spend. Upload invoices, track token consumption, get AI-driven cost recommendations, and forecast future usage — all from a single interface.
 
