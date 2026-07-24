@@ -3,7 +3,6 @@ import pandas as pd
 import requests
 import numpy as np
 import os 
-from sklearn.linear_model import LinearRegression
 
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
@@ -67,47 +66,47 @@ def api_extract_from_database(invoice_number):
         )
     return response
 
-def predict_future_costs(df1):
-    start_date=np.array(pd.to_datetime(df1['billing_date'])).reshape(-1,1)
-    weeks=[]
-    for i in range(0,start_date.size):
-        weeks.append(i+1)
-    future_dates=[]
-    for i in range(weeks[-1],(len(weeks)+5)):
-        future_dates.append(i+1)
-    timep=np.array(weeks).reshape(-1,1)
-    period=np.array(future_dates).reshape(-1,1)
-    costs=np.array(df1["amount_usd"])
-    x_train=timep
-    y_train=costs
-    x_predicted=period
-    model=LinearRegression()
-    model.fit(x_train,y_train)
-    predictions=model.predict(x_predicted)
+#def predict_future_costs(df1):
+    #start_date=np.array(pd.to_datetime(df1['billing_date'])).reshape(-1,1)
+    #weeks=[]
+    #for i in range(0,start_date.size):
+        #weeks.append(i+1)
+    #future_dates=[]
+    #for i in range(weeks[-1],(len(weeks)+5)):
+        #future_dates.append(i+1)
+    #timep=np.array(weeks).reshape(-1,1)
+    #period=np.array(future_dates).reshape(-1,1)
+    #costs=np.array(df1["amount_usd"])
+    #x_train=timep
+    #y_train=costs
+    #x_predicted=period
+    #model=LinearRegression()
+    #model.fit(x_train,y_train)
+    #predictions=model.predict(x_predicted)
     
 
-    return predictions
+    #return predictions
 
 
-def predict_future_tokens(df1):
-    start_date=np.array(pd.to_datetime(df1['billing_date'])).reshape(-1,1)
-    weeks=[]
-    for i in range(0,start_date.size):
-        weeks.append(i+1)
-    future_dates=[]
-    for i in range(weeks[-1],(len(weeks)+5)):
-        future_dates.append(i+1)
-    timep=np.array(weeks).reshape(-1,1)
-    period=np.array(future_dates).reshape(-1,1)
-    tokens=np.array(df1["total_tokens"])
-    x_train=timep
-    y_train=tokens
-    x_predicted=period
-    model=LinearRegression()
-    model.fit(x_train,y_train)
-    predictions=model.predict(x_predicted)
+#def predict_future_tokens(df1):
+    #start_date=np.array(pd.to_datetime(df1['billing_date'])).reshape(-1,1)
+    #weeks=[]
+    #for i in range(0,start_date.size):
+        #weeks.append(i+1)
+    #future_dates=[]
+    #for i in range(weeks[-1],(len(weeks)+5)):
+        #future_dates.append(i+1)
+    #timep=np.array(weeks).reshape(-1,1)
+    #period=np.array(future_dates).reshape(-1,1)
+    #tokens=np.array(df1["total_tokens"])
+    #x_train=timep
+    #y_train=tokens
+    #x_predicted=period
+    #model=LinearRegression()
+    #model.fit(x_train,y_train)
+    #predictions=model.predict(x_predicted)
     
-    return predictions
+    #return predictions
 
 
     
@@ -138,14 +137,14 @@ else:
     col1,col2=st.columns(2)
     with col1:
         if st.button("Forecast Costs",use_container_width=True):
-            z1=predict_future_costs(df1)
-            st.write(z1)
+           #z1=predict_future_costs(df1)
+            #st.write(z1)
             st.write(df1.head())
            
     with col2:
         if st.button("Forecast Token Usage",use_container_width=True):
-            z2=predict_future_tokens(df1)
-            st.write(z2)
+            #z2=predict_future_tokens(df1)
+            #st.write(z2)
             
 
     
