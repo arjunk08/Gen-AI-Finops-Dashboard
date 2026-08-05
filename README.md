@@ -6,7 +6,8 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20Store-orange)
 ![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF)
-![OpenAI SDK](https://img.shields.io/badge/?modal=icon&q=openaigym)
+![OpenAI](https://img.shields.io/badge/-OpenAI_SDK-412991?style=flat-square&logo=openai&logoColor=white)
+![LangChain](https://img.shields.io/badge/-LangChain-1C3C3C?style=flat-square&logo=langchain&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-success)
 
 
@@ -28,18 +29,27 @@ An AI-powered FinOps dashboard for analyzing, visualizing, and optimizing Genera
                                            ┌──────────┴───────────┐
                                            │                      │
                                     ┌──────▼──────┐     ┌────────▼────────┐
-                                    │ PostgreSQL   │     │ ChromaDB        │
-                                    │ (NeonDB)     │     │ (Persistent)    │
-                                    │              │     │ Vector Store    │
-                                    │              │     │         +       │
-                                                         │     reranking   │
-                                                         │ using Cohere API│
-                                    └──────────────┘     └─────────────────┘
+                                    │ PostgreSQL  |     │ ChromaDB        │
+                                    │ (NeonDB)    │     │ (Persistent)    │
+                                    │             │     │ Vector Store    │
+                                    │             │     │         +       │
+                                    |             |     │ reranking       │
+                                    |             |     │ using           |
+                                    |             |     | Cohere          |
+                                    |             |     | Cross-encoder   │
+                                    └─────────────┘     └─────────────────┘
                                                                 │
-                                                      ┌────────▼────────┐
-                                                      │  LLM Providers  │
-                                                      │  OpenAI / Cohere│
-                                                      └─────────────────┘
+                                                       ┌────────▼────────┐
+                                                       │  LLM ChatHistory| 
+                                                       |  Using          |
+                                                       |  Langchain      |
+                                                       |                 | 
+                                                       |      +          | 
+                                                       |                 |
+                                                       |  LLM            |
+                                                       |  Providers      │
+                                                       │  OpenAI / Cohere│
+                                                       └─────────────────┘
 ```
 
 The frontend (Streamlit) communicates exclusively with the backend (FastAPI) over HTTPS. The backend handles all database operations, authentication, vector indexing, Rewriting query, Reranking & retrieval using Cohere API, and LLM calls for answer.
