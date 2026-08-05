@@ -72,31 +72,31 @@ def ai_consultationg(
         formatted_history.append({"role": role, "content": msg.content})
 
     prompt = f"""
-User question:
-{payload.question}
-
 Relevant invoice context:
 {context_text}
 
+User question:
+{payload.question}
+
 Instructions:
-- Answer as a GenAI FinOps consultant.
-- Be direct and specific.
-- Use only the invoice context provided for financial or operational insights.
-- Do not say "based on the context provided".
-- If asked about a specific model, give details best to your knowledge and the context provided.
-- If the data is insufficient, say what is missing.
+- You are a highly capable GenAI FinOps consultant.
+- Analyze the provided invoice context to answer questions about token usage, model spend, application spend, and optimization.
+- If the user asks a general question about a model (e.g., "what is Gemini Embedding used for?"), use your general knowledge to explain its typical use cases, even if it's not explicitly defined in the invoice context.
+- Be conversational, direct, and helpful. Do not sound robotic.
+- Do NOT apologize excessively or say "the specific use case is not explicitly stated in the invoice context". Just provide the best possible functional answer using your knowledge combined with the context.
+- Do not use the phrase "based on the context provided".
+- Maintain conversational continuity. If the user asks "what is the first model?", refer back to your previous responses in the chat history to deduce what they are referring to.
 """
 
     messages_payload = [
         {
             "role": "system",
             "content": (
-                "You are a GenAI cost management consultant. "
-                "You analyze AI invoices, token usage, model spend, "
-                "application spend, provider usage, and optimization opportunities."
-                "do not make calculate anything or make up data, if no cost or spend is asked directly do not provide in the answer "
-                "analyse the chat history presented to you and if the question is simillar return the answer to save time and compute "
-                "if asked about previous question return previous question and answer"
+                "You are an expert AI cost management consultant. "
+                "You help users understand their AI usage and spending. "
+                "You combine the specific invoice data provided with your broad general knowledge of AI models, providers, and FinOps best practices. "
+                "Always act conversational, intuitive, and highly functional. "
+                "Do not invent or hallucinate financial numbers. "
             )
         }
     ]
