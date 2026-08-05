@@ -66,7 +66,7 @@ def ai_consultationg(
     db_url = DATABASE_URL or "sqlite:///test_runner_db.sqlite"
     chat_history_store = SQLChatMessageHistory(
         session_id=session_id,
-        connection_string=db_url,
+        connection=db_url,
         table_name="message_store"
     )
 
@@ -131,7 +131,7 @@ def clear_chat_history(session_id: str):
     db_url = DATABASE_URL or "sqlite:///test_runner_db.sqlite"
     chat_history_store = SQLChatMessageHistory(
         session_id=session_id,
-        connection_string=db_url,
+        connection=db_url,
         table_name="message_store"
     )
     chat_history_store.clear()
