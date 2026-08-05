@@ -43,7 +43,7 @@ if "messages" not in st.session_state:
 def clear_chat():
     try:
         requests.delete(f"{API_BASE_URL}/ai/history/{st.session_state.session_id}", headers=get_auth_headers())
-    except:
+    except Exception:
         pass
     st.session_state.session_id = str(uuid.uuid4())
     st.session_state.messages = []
