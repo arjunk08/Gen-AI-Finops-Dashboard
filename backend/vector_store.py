@@ -103,7 +103,7 @@ def rerank(question, documents, metadatas):
     if not cohere_key or not documents:
         return documents, metadatas
 
-    url = "https://api.cohere.com/v1/rerank"
+    url = "https://api.cohere.com/v2/rerank"
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
