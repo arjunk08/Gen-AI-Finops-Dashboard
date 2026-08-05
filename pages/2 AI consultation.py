@@ -137,7 +137,7 @@ if selected_invoice != "All invoices":
     invoice_id = invoice_options[selected_invoice]
 
 
-# Render chat history
+
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
@@ -145,7 +145,7 @@ for msg in st.session_state.messages:
 question = st.chat_input("Ask about your invoice, cost drivers, token usage, models, providers, or optimization")
 
 if question:
-    # Add user message to UI
+    
     st.session_state.messages.append({"role": "user", "content": question})
     with st.chat_message("user"):
         st.write(question)
@@ -172,7 +172,7 @@ if question:
         data = response.json()
         answer = data.get("answer", "")
         
-        # Add AI message to UI
+        
         st.session_state.messages.append({"role": "assistant", "content": answer})
         with st.chat_message("assistant"):
             st.write(answer)

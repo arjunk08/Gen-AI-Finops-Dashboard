@@ -289,6 +289,15 @@ To explore the live app without registering:
 
 ---
 
+## Recent Updates
+
+- **Hybrid AI Memory Integration**: Upgraded the AI consultation endpoint to use LangChain's `SQLChatMessageHistory` backed by PostgreSQL. The system now securely manages conversational context across multiple turns (up to 10 messages) without exhausting LLM token limits, seamlessly operating alongside the existing OpenAI SDK logic.
+- **Native Chat UI**: Overhauled the Streamlit frontend (`pages/2 AI consultation.py`) to utilize native `st.chat_message` and `st.chat_input` components. The UI now actively manages session states, renders full multi-turn conversation histories, and includes a "New Chat" sidebar button to clear the backend memory.
+- **Smarter Consultant Prompts**: Rewrote the Groq/OpenAI system and user prompts to be significantly more conversational, functional, and intuitive. The AI now actively combines retrieved FinOps invoice context with its broad general knowledge, eliminating rigid "robotic" apologies when a specific application use-case isn't explicitly found in the parsed data.
+- **CI/CD Linting Enhancements**: Configured robust Ruff linting rules via `ruff.toml` and resolved undefined variables, missing type annotations (`str | None`), bare exceptions, and unsorted imports to ensure the GitHub Actions pipeline stays green on all future commits.
+
+---
+
 ## Roadmap
 
 - [ ] Forecasting module (time-series models)
