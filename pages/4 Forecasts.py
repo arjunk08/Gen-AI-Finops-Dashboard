@@ -1,9 +1,8 @@
-import streamlit as st 
-import pandas as pd 
-import requests
-import numpy as np
-import os 
+import os
 
+import pandas as pd
+import requests
+import streamlit as st
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
 st.set_page_config("Forecast")
@@ -143,9 +142,9 @@ else:
            
     with col2:
         if st.button("Forecast Token Usage",use_container_width=True):
+            pass
             #z2=predict_future_tokens(df1)
             #st.write(z2)
-            
 
     
 

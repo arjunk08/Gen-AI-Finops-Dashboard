@@ -1,10 +1,10 @@
-from pathlib import Path
-import chromadb
 import os
+from pathlib import Path
+
+import chromadb
 import requests
 
 from db_end.models import invoice_rows
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 CHROMA_PATH = BASE_DIR / "chroma_store"

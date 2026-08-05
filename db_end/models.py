@@ -1,7 +1,17 @@
-from db_end.db1 import Base
-from sqlalchemy import Column, Integer, BigInteger, String, Float, Text, DateTime, ForeignKey
-from sqlalchemy.sql import func
+from sqlalchemy import (
+    BigInteger,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+)
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+
+from db_end.db1 import Base
 
 
 class userid(Base):

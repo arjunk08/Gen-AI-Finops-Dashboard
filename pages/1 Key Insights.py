@@ -1,8 +1,8 @@
 import os
 
-import pandas as pd 
-import streamlit as st 
+import pandas as pd
 import requests
+import streamlit as st
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
 if "access_token" not in st.session_state:
@@ -166,7 +166,7 @@ else:
                         st.bar_chart(token_model_df,x="Model",y="total_tokens",y_label="Tokens Per Model")
                     with c3:
                         st.subheader("Department Cost")
-                        if "application" != None:
+                        if "application" in df1.columns:
                             appdf=(df1.groupby("application")["amount_usd"].sum().reset_index())
                             st.bar_chart(appdf,x="application",y="amount_usd",y_label="Amount used")    
                             appdft=(df1.groupby("application")["total_tokens"].sum().reset_index())

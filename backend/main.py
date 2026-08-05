@@ -1,9 +1,7 @@
 from fastapi import FastAPI
 
-from db_end.db1 import engine, Base
-
-from backend.routers import auth_router, invoice_router,ai_router
-
+from backend.routers import ai_router, auth_router, invoice_router
+from db_end.db1 import Base, engine
 
 Base.metadata.create_all(bind=engine)
 

@@ -1,13 +1,12 @@
-from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordRequestForm
-from db_end.models import userid
-from backend.dependancies import get_db
-from backend.auth import hashp, verify_password,create_token
 
+from backend.auth import create_token, hashp, verify_password
+from backend.dependancies import get_db
+from db_end.models import userid
 
 router = APIRouter()
 
@@ -15,7 +14,7 @@ router = APIRouter()
 class RegisterRequest(BaseModel):
     email: str
     password: str
-    username: Optional[str] = None
+    username: str | None = None
 
 
 class LoginRequest(BaseModel):

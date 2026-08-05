@@ -1,4 +1,5 @@
-from db_end.db1 import engine, Base
+from db_end.db1 import Base, engine
+
 
 def create_tables():
     Base.metadata.create_all(bind=engine)

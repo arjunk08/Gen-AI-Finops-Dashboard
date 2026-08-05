@@ -1,26 +1,25 @@
-import os
 import json
-from typing import Optional
+import os
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
 from openai import OpenAI
-from db_end.models import userid,chathistory,optimization_rec
-from backend.dependancies import get_current_user,get_db,Session
-from backend.vector_store import query_user_context
-from backend.ai_protection import check_rate_limit,check_ai_request
+from pydantic import BaseModel
 
+from backend.ai_protection import check_ai_request, check_rate_limit
+from backend.dependancies import Session, get_current_user, get_db
+from backend.vector_store import query_user_context
+from db_end.models import chathistory, optimization_rec, userid
 
 router = APIRouter()
 
 
 class AIConsultRequest(BaseModel):
     question: str
-    invoice_id: Optional[int] = None
+    invoice_id: int | None = None
 
 class AIOptimizeRequest(BaseModel):
     question:str
-    invoice_id: Optional[int]=None
+    invoice_id: int | None=None
 
 
 groq=OpenAI(base_url=os.getenv("GROQ_API_ENDPOINT"),

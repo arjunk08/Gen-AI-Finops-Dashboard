@@ -1,10 +1,10 @@
-import streamlit as st
+import os
+
+import matplotlib.pyplot as plt
 import pandas as pd
 import requests
-import matplotlib.pyplot as plt 
 import seaborn as sns
-
-import os
+import streamlit as st
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
 

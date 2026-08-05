@@ -1,15 +1,20 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
-from sqlalchemy.orm import Session
-import pandas as pd 
-import re
-from db_end.models import invoice, userid,invoice_rows, chathistory
-from backend.dependancies import get_db, get_current_user
-from sqlalchemy import func
-import json
-import io
 import hashlib
-from backend.vector_store import index_invoice_rows
-from backend.vector_store import debug_chroma_for_user, debug_chroma_all
+import io
+import json
+import re
+
+import pandas as pd
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from sqlalchemy import func
+from sqlalchemy.orm import Session
+
+from backend.dependancies import get_current_user, get_db
+from backend.vector_store import (
+    debug_chroma_all,
+    debug_chroma_for_user,
+    index_invoice_rows,
+)
+from db_end.models import chathistory, invoice, invoice_rows, userid
 
 router = APIRouter()
 
@@ -350,7 +355,7 @@ def get_dashboard_summary(
     )
 
     return {
-        "invoice_count": int(len(user_invoices)),
+        "invoice_count": len(user_invoices),
         "current_invoice":latest_invoice.id,
         "paycycle_start": date_summary.paycycle_start if date_summary else None,
         "paycycle_end": date_summary.paycycle_end if date_summary else None,

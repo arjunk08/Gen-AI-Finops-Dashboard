@@ -1,6 +1,7 @@
-import streamlit as st
+import os
+
 import requests
-import os 
+import streamlit as st
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://gen-ai-finops-dashboard.onrender.com")
 

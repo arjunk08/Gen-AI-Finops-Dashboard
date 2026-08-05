@@ -17,3 +17,5 @@ python-dotenv
 psycopg2-binary
 pytest
 cohere
+langchain-community
+langchain-core
