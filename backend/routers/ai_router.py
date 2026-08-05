@@ -9,6 +9,8 @@ from backend.ai_protection import check_ai_request, check_rate_limit
 from backend.dependancies import Session, get_current_user, get_db
 from backend.vector_store import query_user_context
 from db_end.models import chathistory, optimization_rec, userid
+from db_end.db1 import DATABASE_URL
+from langchain_community.chat_message_histories import SQLChatMessageHistory
 
 router = APIRouter()
 
@@ -16,6 +18,7 @@ router = APIRouter()
 class AIConsultRequest(BaseModel):
     question: str
     invoice_id: int | None = None
+    session_id: str | None = None
 
 class AIOptimizeRequest(BaseModel):
     question:str
@@ -59,26 +62,19 @@ def ai_consultationg(
         ]
     )
 
-    chat_hist = (
-    db.query(chathistory)
-    .filter(chathistory.invoice_id == payload.invoice_id)
-    .all())
+    session_id = payload.session_id or "default_session"
+    db_url = DATABASE_URL or "sqlite:///test_runner_db.sqlite"
+    chat_history_store = SQLChatMessageHistory(
+        session_id=session_id,
+        connection_string=db_url,
+        table_name="message_store"
+    )
 
-    history = [
-    {
-        "Invoice_id": item.invoice_id,
-        "answer": item.answer,
-        "question": item.question,
-        "retrieved_context": item.retrieved_context
-    }
-    for item in chat_hist
-    ]
-    history_text = "\n\n".join(
-        [
-            f"Previous Question: {item['question']}\nPrevious Answer: {item['answer']}"
-            for item in history
-            ]
-            )
+    formatted_history = []
+    # Keep last 10 messages (5 turns)
+    for msg in chat_history_store.messages[-10:]:
+        role = "user" if msg.type == "human" else "assistant"
+        formatted_history.append({"role": role, "content": msg.content})
 
     prompt = f"""
 User question:
@@ -86,9 +82,6 @@ User question:
 
 Relevant invoice context:
 {context_text}
-
-chat_history_for invoice:
-{history_text}
 
 Instructions:
 - Answer as a GenAI FinOps consultant.
@@ -99,46 +92,50 @@ Instructions:
 - If the data is insufficient, say what is missing.
 """
 
+    messages_payload = [
+        {
+            "role": "system",
+            "content": (
+                "You are a GenAI cost management consultant. "
+                "You analyze AI invoices, token usage, model spend, "
+                "application spend, provider usage, and optimization opportunities."
+                "do not make calculate anything or make up data, if no cost or spend is asked directly do not provide in the answer "
+                "analyse the chat history presented to you and if the question is simillar return the answer to save time and compute "
+                "if asked about previous question return previous question and answer"
+            )
+        }
+    ]
+    
+    messages_payload.extend(formatted_history)
+    messages_payload.append({"role": "user", "content": prompt})
+
     response = groq.chat.completions.create(
         model="llama-3.3-70b-versatile",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are a GenAI cost management consultant. "
-                    "You analyze AI invoices, token usage, model spend, "
-                    "application spend, provider usage, and optimization opportunities."
-                    "do not make calculate anything or make up data, if no cost or spend is asked directly do not provide in the answer"
-                    "analyse the chat history presented to you and if the question is simillar return the answer to save time and compute"
-                    "if asked about previous question return previous question and answer"
-                )
-            },
-            {
-                "role": "user",
-                "content": prompt,
-            }
-        ]
+        messages=messages_payload
     )
 
     answer = response.choices[0].message.content
 
-    if payload.invoice_id is not None:
-        chat_history = chathistory(
-            invoice_id=payload.invoice_id,
-            question=payload.question,
-            answer=answer,
-            retrieved_context=json.dumps(context_blocks),
-        )
-        db.add(chat_history)
-        db.commit()
-        db.refresh(chat_history)
+    # Save to LangChain SQL memory
+    chat_history_store.add_user_message(payload.question)
+    chat_history_store.add_ai_message(answer)
 
     return {
         "answer": answer,
         "context_used": context_text,
         
-
     }
+
+@router.delete("/history/{session_id}")
+def clear_chat_history(session_id: str):
+    db_url = DATABASE_URL or "sqlite:///test_runner_db.sqlite"
+    chat_history_store = SQLChatMessageHistory(
+        session_id=session_id,
+        connection_string=db_url,
+        table_name="message_store"
+    )
+    chat_history_store.clear()
+    return {"message": "Session history cleared."}
 
 
 

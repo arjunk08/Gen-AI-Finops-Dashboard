@@ -1,4 +1,5 @@
 import os
+import uuid
 
 import requests
 import streamlit as st
@@ -34,7 +35,20 @@ def get_auth_headers():
         "Authorization": f"Bearer {st.session_state.access_token}"
     }
 
-st.session_state.session_chat=None
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+def clear_chat():
+    try:
+        requests.delete(f"{API_BASE_URL}/ai/history/{st.session_state.session_id}", headers=get_auth_headers())
+    except:
+        pass
+    st.session_state.session_id = str(uuid.uuid4())
+    st.session_state.messages = []
+
+st.sidebar.button("New Chat", on_click=clear_chat, use_container_width=True)
 
 def fetch_my_invoices():
     response = requests.get(
@@ -72,13 +86,14 @@ def rewrite(question, invoice_id=None):
     )
     return response
 
-def ask_ai(question, invoice_id=None):
+def ask_ai(question, invoice_id=None, session_id=None):
     response = requests.post(
         f"{API_BASE_URL}/ai/consult/groq",
         headers=get_auth_headers(),
         json={
             "question": question,
-            "invoice_id": invoice_id
+            "invoice_id": invoice_id,
+            "session_id": session_id
         },
         timeout=90
     )
@@ -122,29 +137,45 @@ if selected_invoice != "All invoices":
     invoice_id = invoice_options[selected_invoice]
 
 
+# Render chat history
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.write(msg["content"])
+
 question = st.chat_input("Ask about your invoice, cost drivers, token usage, models, providers, or optimization")
 
 if question:
+    # Add user message to UI
+    st.session_state.messages.append({"role": "user", "content": question})
+    with st.chat_message("user"):
+        st.write(question)
+
     with st.spinner("Analyzing invoice context..."):
+        r1 = ""
         response1 = rewrite(
             question=question,
             invoice_id=invoice_id
         )
         if response1.status_code == 200:
-            new_query=response1.json()
-            r1=new_query.get("new_query")
-    response=ask_ai(
-        question=f"{question}and context help is {r1}",
-        invoice_id=invoice_id
-    )
+            new_query = response1.json()
+            r1 = new_query.get("new_query", "")
+            
+        final_question = f"{question} and context help is {r1}" if r1 else question
         
+        response = ask_ai(
+            question=final_question,
+            invoice_id=invoice_id,
+            session_id=st.session_state.session_id
+        )
 
     if response.status_code == 200:
         data = response.json()
-
-        st.subheader(":blue[AI] Answer")
-        st.write(data.get("answer",""))
-
+        answer = data.get("answer", "")
+        
+        # Add AI message to UI
+        st.session_state.messages.append({"role": "assistant", "content": answer})
+        with st.chat_message("assistant"):
+            st.write(answer)
 
     else:
         st.error(response.text)
