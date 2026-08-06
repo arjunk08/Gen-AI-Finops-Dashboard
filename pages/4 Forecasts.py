@@ -65,50 +65,27 @@ def api_extract_from_database(invoice_number):
         )
     return response
 
-#def predict_future_costs(df1):
-    #start_date=np.array(pd.to_datetime(df1['billing_date'])).reshape(-1,1)
-    #weeks=[]
-    #for i in range(0,start_date.size):
-        #weeks.append(i+1)
-    #future_dates=[]
-    #for i in range(weeks[-1],(len(weeks)+5)):
-        #future_dates.append(i+1)
-    #timep=np.array(weeks).reshape(-1,1)
-    #period=np.array(future_dates).reshape(-1,1)
-    #costs=np.array(df1["amount_usd"])
-    #x_train=timep
-    #y_train=costs
-    #x_predicted=period
-    #model=LinearRegression()
-    #model.fit(x_train,y_train)
-    #predictions=model.predict(x_predicted)
-    
+def predict_future_costs(df1):
+    df1['billing_date'] = pd.to_datetime(df1['billing_date'])
+    min_date = df1['billing_date'].min()
+    max_date = df1['billing_date'].max()
+    days_spanned = (max_date - min_date).days
+    if days_spanned < 1:
+        days_spanned = 1
+    total_cost = df1['amount_usd'].sum()
+    daily_burn_rate = total_cost / days_spanned
+    return daily_burn_rate * 30
 
-    #return predictions
-
-
-#def predict_future_tokens(df1):
-    #start_date=np.array(pd.to_datetime(df1['billing_date'])).reshape(-1,1)
-    #weeks=[]
-    #for i in range(0,start_date.size):
-        #weeks.append(i+1)
-    #future_dates=[]
-    #for i in range(weeks[-1],(len(weeks)+5)):
-        #future_dates.append(i+1)
-    #timep=np.array(weeks).reshape(-1,1)
-    #period=np.array(future_dates).reshape(-1,1)
-    #tokens=np.array(df1["total_tokens"])
-    #x_train=timep
-    #y_train=tokens
-    #x_predicted=period
-    #model=LinearRegression()
-    #model.fit(x_train,y_train)
-    #predictions=model.predict(x_predicted)
-    
-    #return predictions
-
-
-    
+def predict_future_tokens(df1):
+    df1['billing_date'] = pd.to_datetime(df1['billing_date'])
+    min_date = df1['billing_date'].min()
+    max_date = df1['billing_date'].max()
+    days_spanned = (max_date - min_date).days
+    if days_spanned < 1:
+        days_spanned = 1
+    total_tokens = df1['total_tokens'].sum()
+    daily_burn_rate = total_tokens / days_spanned
+    return daily_burn_rate * 30
 
 
     
@@ -133,18 +110,22 @@ else:
     df=api_extract_from_database(invoice_id).json()
     invoice_data=df["rows"]
     df1=pd.DataFrame(invoice_data)
-    col1,col2=st.columns(2)
+    col1, col2 = st.columns(2)
     with col1:
-        if st.button("Forecast Costs",use_container_width=True):
-           #z1=predict_future_costs(df1)
-            #st.write(z1)
-            st.write(df1.head())
+        if st.button("Forecast Costs", use_container_width=True):
+            proj_30 = predict_future_costs(df1)
+            st.metric("Estimated 30-Day Cost", f"${proj_30:,.2f}")
+            df1['billing_date'] = pd.to_datetime(df1['billing_date'])
+            cost_trend = df1.groupby('billing_date')['amount_usd'].sum()
+            st.line_chart(cost_trend)
            
     with col2:
-        if st.button("Forecast Token Usage",use_container_width=True):
-            pass
-            #z2=predict_future_tokens(df1)
-            #st.write(z2)
+        if st.button("Forecast Token Usage", use_container_width=True):
+            proj_30_tokens = predict_future_tokens(df1)
+            st.metric("Estimated 30-Day Tokens", f"{proj_30_tokens:,.0f}")
+            df1['billing_date'] = pd.to_datetime(df1['billing_date'])
+            token_trend = df1.groupby('billing_date')['total_tokens'].sum()
+            st.line_chart(token_trend)
 
     
 
